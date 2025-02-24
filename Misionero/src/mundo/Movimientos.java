@@ -1,4 +1,3 @@
-
 package mundo;
 
 import gfutria.Logic;
@@ -68,83 +67,159 @@ public class Movimientos extends Logic {
     }
 
     private boolean verificar() {
-        if (lado == 1) {
-            lado--;
+        if ((misionerosI > 0 && canibalesI > misionerosI)
+                || (misionerosD > 0 && canibalesD > misionerosD)) {
             return true;
+        }
+        return false;
+    }
+
+    private void lado() {
+        if (lado == 0) {
+            lado = 1;
         } else {
-            lado++;
-            return false;
+            lado = 0;
         }
     }
 
-    public String otroLado() {
-        int otroCan = 3 - canibales;
-        int otroMis = 3 - misioneros;
-        return otroCan + "" + otroMis;
-    }
-
     public void unCanibal() {
-        if (verificar())
-            canibales--;
+        if (verificar()) {
+            return;
+        } else {
+            if (lado == 1) {
+                if (canibalesI > 0) {
 
-        else
-            canibales++;
+                    canibalesI--;
+                    canibalesD++;
+                    lado();
+                }
+            } else {
+                if (canibalesD > 0) {
 
+                    canibalesI++;
+                    canibalesD--;
+                    lado();
+                }
+            }
+
+        }
     }
 
     public void dosMisioneros() {
-        if (verificar())
-            misioneros -= 2;
-        else
-            misioneros += 2;
+        if (verificar()) {
+            return;
+        } else {
 
+            if (lado == 1) {
+                if (misionerosI > 1) {
+
+                    misionerosI -= 2;
+                    misionerosD += 2;
+                    lado();
+                }
+            } else {
+                if (misionerosD > 1) {
+
+                    misionerosI += 2;
+                    misionerosD -= 2;
+                    lado();
+                }
+            }
+
+        }
     }
 
     public void dosCanibales() {
-        if (verificar())
-            canibales -= 2;
-        else
-            canibales += 2;
+        if (verificar()) {
+            return;
+        } else {
 
+            if (lado == 1) {
+                if (canibalesI > 1) {
+
+                    canibalesI -= 2;
+                    canibalesD += 2;
+                    lado();
+                }
+            } else {
+                if (canibalesD > 1) {
+
+                    canibalesI += 2;
+                    canibalesD -= 2;
+                    lado();
+                }
+            }
+
+        }
     }
 
     public void unCanibalUnMisionero() {
         if (verificar()) {
-            canibales--;
-            misioneros--;
+            return;
         } else {
-            canibales++;
-            misioneros++;
+            if (lado == 1) {
+                if (canibalesI > 0 && misionerosI > 0) {
+
+                    canibalesI--;
+                    canibalesD++;
+                    misionerosI--;
+                    misionerosD++;
+                    lado();
+                }
+            } else {
+                if (canibalesD > 0 && misionerosD > 0) {
+
+                    canibalesI++;
+                    canibalesD--;
+                    misionerosI++;
+                    misionerosD--;
+                    lado();
+                }
+            }
+
         }
     }
 
     public void unMisionero() {
-        if (verificar())
-            misioneros--;
+        if (verificar()) {
+            return;
+        } else {
+            if (lado == 1) {
+                if (misionerosI > 0) {
 
-        else
-            misioneros++;
+                    misionerosI--;
+                    misionerosD++;
+                    lado();
+                }
+            } else {
+                if (misionerosD > 0) {
 
-    }
+                    misionerosI++;
+                    misionerosD--;
+                    lado();
+                }
+            }
 
-    public String mostrarResultado() {
-        return misioneros + "" + canibales + "1" + " " + otroLado() + "0";
+        }
     }
 
     @Override
     public void action(int arg0) {
-        // TODO: Poner los otros metodos
         switch (arg0) {
             case 1:
                 unCanibal();
                 break;
             case 2:
+                dosMisioneros();
                 break;
             case 3:
+                dosCanibales();
                 break;
             case 4:
+                unCanibalUnMisionero();
                 break;
             case 5:
+                unMisionero();
                 break;
         }
     }
@@ -163,7 +238,6 @@ public class Movimientos extends Logic {
         return clone;
     }
 
-    // 3 3 0 0 0 --- 0 0 1 3 3
     @Override
     public String state() {
         return misionerosI + " " + canibalesI + " " + lado + " " + misionerosD + " " + canibalesD;
