@@ -17,8 +17,8 @@ public class interfazApp {
    * @param args the command line arguments
    */
   public static void main(String[] args) {
-    Movimientos movimientos = new Movimientos(3, 3, 0, 0, 0);
-    SearchStateSpaces ia = new SearchStateSpaces("0 0 1 3 3", movimientos, 5);
+    Movimientos movimientos = new Movimientos(3, 3, 1, 0, 0);
+    SearchStateSpaces ia = new SearchStateSpaces("0 0 0 3 3", movimientos, 5);
 
     ArrayList<String> solucion = ia.solve();
 
