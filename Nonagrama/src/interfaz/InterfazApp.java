@@ -15,7 +15,7 @@ public class InterfazApp extends JFrame{
     public InterfazApp() {
         this.setLayout(null);
         
-        this.setTitle("Nonograma");
+        this.setTitle("Nonagrama");
         this.setSize(700, 700);
         this.setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
