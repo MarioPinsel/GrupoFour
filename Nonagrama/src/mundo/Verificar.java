@@ -1,16 +1,11 @@
 package mundo;
 
-import controlador.Controlador;
-import controlador.Controlador.Coordenada;
-import java.util.List;
 
 /**
  *
  * @author User
  */
 public class Verificar {
-
-    private Controlador ctrl;
     private char[][] matriz;
     private int vidasRestantes;
 
@@ -27,40 +22,37 @@ public class Verificar {
             {'0', '0', '0', '0', '0', '0', 'X', 'X', '0', 'X'},
             {'X', 'X', 'X', 'X', 'X', 'X', '0', '0', 'X', 'X'}
         };
+        vidasRestantes = 3;  
     }
 
-    public boolean errorX() {
-        List<Coordenada> posiciones = ctrl.obtenerPosicionesConX();
-        for (Coordenada pos : posiciones) {
-            int fila = pos.getFila();
-            int columna = pos.getColumna();
-            if (matriz[fila][columna] == '0') {
-                return true;
-            }
+    
+    public boolean verificarX(int fila, int columna) {
+        if (matriz[fila][columna] == '0') {
+            reducirVidas();
+            return true;
+        }    
+        return false;
+    }
+
+
+    public boolean verificar0(int fila, int columna) {
+        if (matriz[fila][columna] == 'X') {
+            reducirVidas(); 
+            return true;
         }
         return false;
     }
 
-    public boolean error0() {
-        List<Coordenada> posiciones = ctrl.obtenerPosicionesConX();
-        for (Coordenada pos : posiciones) {
-            int fila = pos.getFila();
-            int columna = pos.getColumna();
-            if (matriz[fila][columna] == 'X') {
-                return true;
-            }
+
+    private void reducirVidas() {
+        if (vidasRestantes > 0) {
+            vidasRestantes--;
         }
-        return false;
     }
 
-    public int contador() {
-        int indicePerder = 3;
-        if (errorX() || error0()) {
-            if (vidasRestantes > 0) {
-                indicePerder -= vidasRestantes;
-                vidasRestantes--;
-            }
-        }
-        return indicePerder;
+    
+    public int getVidasRestantes() {
+        return vidasRestantes;
     }
 }
+

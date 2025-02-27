@@ -21,8 +21,7 @@ public class panelVidas extends JPanel {
     private JLabel vida1;
     private JLabel vida2;
     private JLabel vida3;
-    
-    
+
     public panelVidas() {
         setBorder(new CompoundBorder(new EmptyBorder(0, 0, 0, 0), new TitledBorder("")));
         setLayout(new FlowLayout());
@@ -33,16 +32,16 @@ public class panelVidas extends JPanel {
     public void vidas() {
         imagen1 = new ImageIcon(getClass().getResource("/imagenes/live.png"));
         imagen2 = new ImageIcon(getClass().getResource("/imagenes/die.png"));
-        
+
         vida1 = new JLabel(imagen1);
         vida2 = new JLabel(imagen1);
         vida3 = new JLabel(imagen1);
-        
+
         add(vida1);
         add(vida2);
         add(vida3);
     }
-    
+
     public void perderVida(int indice) {
         switch (indice) {
             case 0:
@@ -56,7 +55,11 @@ public class panelVidas extends JPanel {
                 break;
             default:
                 System.out.println("Índice de vida inválido.");
+
         }
+        revalidate();
+        repaint();
+
     }
 
     public ImageIcon getImagen1() {
@@ -75,6 +78,4 @@ public class panelVidas extends JPanel {
         this.imagen2 = imagen2;
     }
 
-    
-    
 }
