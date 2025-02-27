@@ -1,5 +1,6 @@
 package interfaz;
 
+import mundo.archivos;
 import java.awt.Color;
 import javax.swing.JFrame;
 
@@ -37,6 +38,8 @@ public class InterfazApp extends JFrame{
     
     public static void main(String[] args) {
         InterfazApp frmMain = new InterfazApp();
+        archivos lector = new archivos();
+        lector.cargarPistas();
         frmMain.setVisible(true);
     }
   
