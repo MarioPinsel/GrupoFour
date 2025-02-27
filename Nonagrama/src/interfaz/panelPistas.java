@@ -27,7 +27,7 @@ public class panelPistas extends JPanel {
             
         }
 
-        panelNorte.setBounds(110, 50, 290, 50); 
+        panelNorte.setBounds(120, 50, 500, 50); 
         add(panelNorte); 
     }
     
@@ -43,7 +43,7 @@ public class panelPistas extends JPanel {
             
         }
 
-        panelOeste.setBounds(50, 90, 60, 290); 
+        panelOeste.setBounds(70, 110, 60, 500); 
         add(panelOeste); 
     }
     

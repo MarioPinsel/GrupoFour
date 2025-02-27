@@ -20,13 +20,14 @@ public class InterfazApp extends JFrame{
         this.setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        pnlB.setBounds(100, 100, 300, 300);
+        pnlB.setBounds(150, 150, 500, 500);
         add(pnlB);
         
         pnlV.setBounds(190, 10, 120, 80);
+        pnlV.setBorder(null);
         add(pnlV);
         
-        pnlP.setBounds(100, 200, 400, 400);
+        pnlP.setBounds(50, 50, 600, 600);
         //pnlP.setBorder(null);
         add(pnlP);
         
