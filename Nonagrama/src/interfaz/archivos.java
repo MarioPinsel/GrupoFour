@@ -15,25 +15,34 @@ import javax.swing.JOptionPane;
 public class archivos {
 
     private String[] PistasFila;
-    private String[] PistasColumna;
+    private String[] pistasColumna;
 
     public archivos() {
         PistasFila = new String[10];
-        PistasColumna = new String[10];
+        pistasColumna = new String[10];
     }
 
     public void cargarPistasDesdeArchivo() {
+        for (int i = 0; i < pistasColumna.length; i++) {
+            pistasColumna[i] = "";
+        }
         File archivo = new File("src\\texto\\Puzzle 1.txt");
 
         try {
             BufferedReader entrada = new BufferedReader(new FileReader(archivo));
             String lectura = entrada.readLine();
             while (lectura != null) {
-                int index;
-                for (int i = 0; i < 19; i++) {
-                    index=0;
+                int index = 0;
+                for (int i = 0; i < lectura.length(); i++) {
+
                     if (lectura.charAt(i) != ' ') {
-                        PistasColumna[index] = String.valueOf(lectura.charAt(i) + "\n");               
+                        if (lectura.charAt(i) == '0') {
+                            pistasColumna[index] += "\n";
+                        } else {
+                            pistasColumna[index] += lectura.charAt(i) + "\n";
+                        }
+
+                        continue;
                     }
                     index++;
                 }
@@ -45,8 +54,9 @@ public class archivos {
         } catch (IOException ex) {
             ex.printStackTrace(System.out);
         }
-        for (int i = 0; i < PistasColumna.length; i++) {
-            System.out.println(PistasColumna[i]);
+        for (int i = 0; i < pistasColumna.length; i++) {
+            System.out.println(pistasColumna[i]);
+
         }
     }
 }
