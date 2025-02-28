@@ -105,8 +105,7 @@ public class archivos {
         }
         for (int i = 0; i < pistasFila.length; i++) {
             System.out.println(pistasFila[i]);
-        }
-        
+        }        
     }
 
     public boolean verificarTablero(String lectura) {
