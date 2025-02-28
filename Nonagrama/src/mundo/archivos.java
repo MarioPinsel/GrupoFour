@@ -16,10 +16,12 @@ public class archivos {
 
     private String[] pistasFila;
     private String[] pistasColumna;
+    private String[][] tablero;
 
-    public archivos() {
-        pistasFila = new String[10];
-        pistasColumna = new String[10];
+    public archivos(int filas, int columnas) {
+        pistasFila = new String[filas];
+        pistasColumna = new String[columnas];
+        tablero = new String[filas][columnas];
     }
 
     public void cargarPistas() {
@@ -29,6 +31,7 @@ public class archivos {
         File archivo = new File("src\\texto\\Puzzle 1.txt");
         int index1;
         int index2 = 0;
+        int index3;
 
         try {
             BufferedReader entrada = new BufferedReader(new FileReader(archivo));
@@ -74,6 +77,20 @@ public class archivos {
                         lectura = entrada.readLine();
 
                     }
+                } else {
+                    for (int i = 0; i < pistasFila.length; i++) {
+                        index3 = 0;
+                        
+                        for (int j = 0; j < lectura.length(); j++) {                            
+                            if (lectura.charAt(j) == ' ') {
+                                continue;
+                            }
+
+                            tablero[i][index3] = String.valueOf(lectura.charAt(j));
+                            index3++;
+                        }
+                        lectura = entrada.readLine();
+                    }
                 }
 
             }
@@ -88,6 +105,12 @@ public class archivos {
         }
         for (int i = 0; i < pistasFila.length; i++) {
             System.out.println(pistasFila[i]);
+        }
+
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < i; j++) {
+                System.out.println(tablero[i][j]);
+            }
         }
     }
 
