@@ -33,8 +33,8 @@ public class panelBotones extends JPanel {
     public void botones() {
         for (int fila = 0; fila < 10; fila++) {
             for (int columna = 0; columna < 10; columna++) {
-                final int filaActual = fila;    // Guardamos la fila del botón
-                final int columnaActual = columna;  // Guardamos la columna del botón
+                final int filaActual = fila;    
+                final int columnaActual = columna;  
 
                 botones[fila][columna] = new JButton();
                 botones[fila][columna].setBackground(Color.WHITE);
@@ -43,12 +43,17 @@ public class panelBotones extends JPanel {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         JButton btn = (JButton) e.getSource();
-                        if (e.getButton() == MouseEvent.BUTTON1) {   
-                            btn.setText("x");
-                            ctrl.revisarX(filaActual, columnaActual);
+                        if (e.getButton() == MouseEvent.BUTTON1) { 
+                            if(ctrl.revisarX(filaActual, columnaActual))
+                            btn.setText("X");
+                            else
+                                btn.setBackground(Color.BLACK);
                         } else if (e.getButton() == MouseEvent.BUTTON3) {
+                            if(ctrl.revisar0(filaActual, columnaActual))
                             btn.setBackground(Color.BLACK);
-                            ctrl.revisar0(filaActual, columnaActual);
+                            else
+                                btn.setText("X");
+                            
                         }
                     }
                 });

@@ -49,6 +49,8 @@ public class Verificar {
             vidasRestantes--;
         }
     }
+    
+    
 
     
     public int getVidasRestantes() {

@@ -14,16 +14,20 @@ public class Controlador {
         verificar = new Verificar();
     }
 
-    public void revisarX(int fila, int columna){
+    public boolean revisarX(int fila, int columna){
            if(verificar.verificarX(fila, columna)){
                panelVidas.perderVida(verificar.getVidasRestantes());
-           }
+               return false;
+           }else
+           return true;
     }
     
-    public void revisar0(int fila, int columna){
+    public boolean revisar0(int fila, int columna){
             if(verificar.verificar0(fila, columna)){
                 panelVidas.perderVida(verificar.getVidasRestantes());
-            }
+                return false;
+            }else
+                return true;
     }
     
 }
