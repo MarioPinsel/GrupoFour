@@ -38,6 +38,8 @@ public class InterfazApp extends JFrame{
     public static void main(String[] args) {
         InterfazApp frmMain = new InterfazApp();
         frmMain.setVisible(true);
+        archivos cargar=new archivos();
+        cargar.cargarPistasDesdeArchivo();
     }
   
 }
