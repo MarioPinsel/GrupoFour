@@ -57,8 +57,6 @@ public class panelVidas extends JPanel {
                 System.out.println("Índice de vida inválido.");
 
         }
-        revalidate();
-        repaint();
 
     }
 
