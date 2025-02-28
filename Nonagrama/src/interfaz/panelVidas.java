@@ -53,8 +53,6 @@ public class panelVidas extends JPanel {
             case 2:
                 vida3.setIcon(imagen2);
                 break;
-            default:
-                System.out.println("Índice de vida inválido.");
 
         }
 

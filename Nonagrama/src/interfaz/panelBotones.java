@@ -18,6 +18,7 @@ import javax.swing.border.TitledBorder;
 public class panelBotones extends JPanel {
 
     private JButton[][] botones;
+    private boolean[][] ganar;
     private Controlador ctrl;
 
     public panelBotones(Controlador controlador) {
@@ -25,6 +26,7 @@ public class panelBotones extends JPanel {
         setLayout(new GridLayout(10, 10, 2, 2));
         ctrl = controlador;
         botones = new JButton[10][10];
+        ganar = new boolean[10][10];
         botones();
     }
 
@@ -39,20 +41,25 @@ public class panelBotones extends JPanel {
 
                 botones[fila][columna].addMouseListener(new MouseAdapter() {
                     @Override
-                    public void mouseClicked(MouseEvent e) {
+                    public void mousePressed(MouseEvent e) {                      
+                        ganar[filaActual][columnaActual] = true;
                         JButton btn = (JButton) e.getSource();
                         if (e.getButton() == MouseEvent.BUTTON1) {
-                            if (ctrl.revisarX(filaActual, columnaActual))
+                            if (ctrl.revisarX(filaActual, columnaActual)) {
                                 btn.setText("X");
-                            else
+                            } else {
                                 btn.setBackground(Color.BLACK);
+                            }
                         } else if (e.getButton() == MouseEvent.BUTTON3) {
-                            System.out.println("Hola1");
-                            if (ctrl.revisar0(filaActual, columnaActual))
+                            if (ctrl.revisar0(filaActual, columnaActual)) {
                                 btn.setBackground(Color.BLACK);
-                            else
+                            } else {
                                 btn.setText("X");
+                            }
 
+                        }
+                        if (esMatrizCompletaTrue(ganar)) {
+                            JOptionPane.showMessageDialog(null, "Has ganado!!!", "Buena", JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
                 });
@@ -61,6 +68,18 @@ public class panelBotones extends JPanel {
             }
         }
     }
+
+    public boolean esMatrizCompletaTrue(boolean[][] matriz) {
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+                if (!matriz[i][j]) { 
+                    return false;
+                }
+            }
+        }
+        return true; 
+    }
+
 }
 // VERIFICAR LO SIGUIENTE
 /*
