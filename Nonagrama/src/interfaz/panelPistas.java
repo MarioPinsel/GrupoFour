@@ -27,17 +27,15 @@ public class panelPistas extends JPanel {
             JPanel panelNorte = new JPanel();
             panelNorte.setLayout(new GridLayout(1, 10));
 
-            for (int i = 0; i < 10; i++) {
-                String A = pistasNorte[i];
-                pistaV = new JTextArea(A); 
-                System.out.println(pistasNorte[i]);
+            for (int i = 0; i < 10; i++) {                
+                pistaV = new JTextArea(pistasNorte[i]);                 
                 pistaV.setEditable(false);
                 pistaV.setOpaque(false);
                 panelNorte.add(pistaV);
 
             }
 
-            panelNorte.setBounds(120, 20, 500, 50);
+            panelNorte.setBounds(120, 20, 450, 80);
             add(panelNorte);
         }
 
@@ -54,7 +52,7 @@ public class panelPistas extends JPanel {
 
         }
 
-        panelOeste.setBounds(70, 110, 60, 500);
+        panelOeste.setBounds(70, 110, 60, 450);
         add(panelOeste);
     }
 

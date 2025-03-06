@@ -24,18 +24,18 @@ public class InterfazApp extends JFrame {
         
         controlador.setInstance(pnlV);
         this.setTitle("Nonograma");
-        this.setSize(700, 700);
+        this.setSize(650, 650);
         this.setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        pnlB.setBounds(150, 150, 500, 500);
+        pnlB.setBounds(100, 150, 450, 450);
         add(pnlB);
 
-        pnlV.setBounds(190, 10, 120, 80);
+        pnlV.setBounds(265, 10, 120, 40);
         pnlV.setBorder(null);
         add(pnlV);
 
-        pnlP.setBounds(50, 50, 600, 600);
+        pnlP.setBounds(0, 50, 600, 600);
         pnlP.setBorder(null);
         add(pnlP);
 
