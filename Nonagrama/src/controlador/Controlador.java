@@ -32,4 +32,9 @@ public class Controlador {
             return true;
     }
 
+    public Verificar getVerificar() {
+        return verificar;
+    }
+    
+
 }

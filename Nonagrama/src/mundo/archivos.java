@@ -1,30 +1,31 @@
 package mundo;
 
-import java.awt.List;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+
 
 /**
  *
  * @author POWER
  */
-public class archivos {
+public class Archivos {
 
-    private String[] pistasFila;
-    private String[] pistasColumna;
-    private String[][] tablero;
+    private final String[] pistasFila;
+    private final String[] pistasColumna;
+    private final char[][] tablero;
 
-    public archivos(int filas, int columnas) {
+    public Archivos(int filas, int columnas) {
         pistasFila = new String[filas];
         pistasColumna = new String[columnas];
-        tablero = new String[filas][columnas];
+        tablero = new char[filas][columnas];
+        cargarPistas();
     }
 
-    public void cargarPistas() {
+    private void cargarPistas() {
         for (int i = 0; i < pistasColumna.length; i++) {
             pistasColumna[i] = "";
         }
@@ -86,7 +87,7 @@ public class archivos {
                                 continue;
                             }
 
-                            tablero[i][index3] = String.valueOf(lectura.charAt(j));
+                            tablero[i][index3] = lectura.charAt(j);
                             index3++;
                         }
                         lectura = entrada.readLine();
@@ -99,13 +100,7 @@ public class archivos {
             ex.printStackTrace(System.out);
         } catch (IOException ex) {
             ex.printStackTrace(System.out);
-        }
-        for (int i = 0; i < pistasColumna.length; i++) {
-            System.out.println(pistasColumna[i]);
-        }
-        for (int i = 0; i < pistasFila.length; i++) {
-            System.out.println(pistasFila[i]);
-        }        
+        }             
     }
 
     public boolean verificarTablero(String lectura) {
@@ -120,5 +115,14 @@ public class archivos {
     public String[] getPistasColumna() {
         return pistasColumna;
     }
+
+    public String[] getPistasFila() {
+        return pistasFila;
+    }
+
+    public char[][] getTablero() {
+        return tablero;
+    }
+    
 
 }
