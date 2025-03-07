@@ -12,13 +12,13 @@ import java.io.IOException;
  *
  * @author POWER
  */
-public class Archivos {
+public class archivos {
 
     private final String[] pistasFila;
     private final String[] pistasColumna;
     private final char[][] tablero;
 
-    public Archivos(int filas, int columnas) {
+    public archivos(int filas, int columnas) {
         pistasFila = new String[filas];
         pistasColumna = new String[columnas];
         tablero = new char[filas][columnas];

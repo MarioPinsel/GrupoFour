@@ -41,9 +41,18 @@ public class panelBotones extends JPanel {
 
                 botones[fila][columna].addMouseListener(new MouseAdapter() {
                     @Override
-                    public void mousePressed(MouseEvent e) {                      
+                    public void mousePressed(MouseEvent e) {
                         ganar[filaActual][columnaActual] = true;
                         JButton btn = (JButton) e.getSource();
+
+                        if (!btn.getText().isEmpty() || btn.getBackground().equals(Color.BLACK)) {
+                            return;
+                        }
+                        if (perder()) {
+                            JOptionPane.showMessageDialog(null, "Has perdido!!!", "Que mal", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+
                         if (e.getButton() == MouseEvent.BUTTON1) {
                             if (ctrl.revisarX(filaActual, columnaActual)) {
                                 btn.setText("X");
@@ -58,10 +67,16 @@ public class panelBotones extends JPanel {
                             }
 
                         }
+                        if (perder()) {
+                            JOptionPane.showMessageDialog(null, "Has perdido!!!", "Que mal", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
                         if (esMatrizCompletaTrue(ganar)) {
                             JOptionPane.showMessageDialog(null, "Has ganado!!!", "Buena", JOptionPane.INFORMATION_MESSAGE);
                         }
+
                     }
+
                 });
 
                 add(botones[fila][columna]);
@@ -69,15 +84,22 @@ public class panelBotones extends JPanel {
         }
     }
 
-    public boolean esMatrizCompletaTrue(boolean[][] matriz) {
+    private boolean perder() {
+        if (ctrl.getVerificar().getVidasRestantes() == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean esMatrizCompletaTrue(boolean[][] matriz) {
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[i].length; j++) {
-                if (!matriz[i][j]) { 
+                if (!matriz[i][j]) {
                     return false;
                 }
             }
         }
-        return true; 
+        return true;
     }
 
 }
