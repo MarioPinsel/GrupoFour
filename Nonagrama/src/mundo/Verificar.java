@@ -1,22 +1,19 @@
 package mundo;
 
-/**
- *
- * @author User
- */
 public class Verificar {
 
     private char[][] matriz;
     private String pistasFila[];
     private String pistasColumna[];
     private int vidasRestantes;
-    private final archivos arc;
+    private Archivos arc;
 
     public Verificar() {
+
         matriz = new char[10][10];
         pistasFila = new String[10];
         pistasColumna = new String[10];
-        arc = new archivos(matriz.length, matriz.length);
+        arc = new Archivos(matriz.length, matriz.length);
         cargarPistas(arc.getPistasColumna(), arc.getPistasFila());
         cargarTablero(arc.getTablero());
         vidasRestantes = 3;
@@ -77,4 +74,8 @@ public class Verificar {
         return pistasColumna;
     }
 
+    public void cambio(String cambio) {
+        arc.setArchivos(cambio);
+        System.out.println("wwawawa");
+    }
 }

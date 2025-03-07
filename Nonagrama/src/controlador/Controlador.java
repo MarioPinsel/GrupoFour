@@ -35,6 +35,21 @@ public class Controlador {
     public Verificar getVerificar() {
         return verificar;
     }
-    
+
+    public void selector(int temp) {
+        switch (temp) {
+            case 1:
+                verificar.cambio("Puzzle 1");
+                break;
+
+            case 2:
+                verificar.cambio("Puzzle 2");
+                break;
+
+            default:
+                System.out.println("Archivo Corrupto");
+                break;
+        }
+    }
 
 }

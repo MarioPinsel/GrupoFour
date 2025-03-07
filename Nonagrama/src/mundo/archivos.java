@@ -15,8 +15,10 @@ public class Archivos {
     private final String[] pistasFila;
     private final String[] pistasColumna;
     private final char[][] tablero;
+    private String archivos = "Puzzle 1";
 
     public Archivos(int filas, int columnas) {
+
         pistasFila = new String[filas];
         pistasColumna = new String[columnas];
         tablero = new char[filas][columnas];
@@ -27,7 +29,8 @@ public class Archivos {
         for (int i = 0; i < pistasColumna.length; i++) {
             pistasColumna[i] = "";
         }
-        File archivo = new File("src\\texto\\Puzzle 1.txt");
+        File archivo = new File("src\\texto\\" + archivos + ".txt");
+
         int index1;
         int index2 = 0;
         int index3;
@@ -120,6 +123,15 @@ public class Archivos {
 
     public char[][] getTablero() {
         return tablero;
+    }
+
+    public String getArchivos() {
+        return archivos;
+    }
+
+    public void setArchivos(String archivos) {
+        this.archivos = archivos;
+        cargarPistas();
     }
 
 }
