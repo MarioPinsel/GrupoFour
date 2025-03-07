@@ -1,24 +1,22 @@
 package mundo;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-
 /**
  *
  * @author POWER
  */
-public class archivos {
+public class Archivos {
 
     private final String[] pistasFila;
     private final String[] pistasColumna;
     private final char[][] tablero;
 
-    public archivos(int filas, int columnas) {
+    public Archivos(int filas, int columnas) {
         pistasFila = new String[filas];
         pistasColumna = new String[columnas];
         tablero = new char[filas][columnas];
@@ -81,8 +79,8 @@ public class archivos {
                 } else {
                     for (int i = 0; i < pistasFila.length; i++) {
                         index3 = 0;
-                        
-                        for (int j = 0; j < lectura.length(); j++) {                            
+
+                        for (int j = 0; j < lectura.length(); j++) {
                             if (lectura.charAt(j) == ' ') {
                                 continue;
                             }
@@ -100,7 +98,7 @@ public class archivos {
             ex.printStackTrace(System.out);
         } catch (IOException ex) {
             ex.printStackTrace(System.out);
-        }             
+        }
     }
 
     public boolean verificarTablero(String lectura) {
@@ -123,6 +121,5 @@ public class archivos {
     public char[][] getTablero() {
         return tablero;
     }
-    
 
 }
