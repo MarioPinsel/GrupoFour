@@ -10,13 +10,13 @@ public class Verificar {
     private String pistasFila[];
     private String pistasColumna[];
     private int vidasRestantes;
-    private final Archivos arc;
+    private final archivos arc;
 
     public Verificar() {
         matriz = new char[10][10];
         pistasFila = new String[10];
         pistasColumna = new String[10];
-        arc = new Archivos(matriz.length, matriz.length);
+        arc = new archivos(matriz.length, matriz.length);
         cargarPistas(arc.getPistasColumna(), arc.getPistasFila());
         cargarTablero(arc.getTablero());
         vidasRestantes = 3;
