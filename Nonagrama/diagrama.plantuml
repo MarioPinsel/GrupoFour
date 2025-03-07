@@ -1,0 +1,95 @@
+@startuml
+
+package controlador {
+    class Controlador {
+        - panelVidas panelVidas
+        - Verificar verificar
+        + void setInstance(panelVidas panelVidas)
+        + boolean revisarX(int fila, int columna)
+        + boolean revisar0(int fila, int columna)
+        + Verificar getVerificar()
+        + void selector(int temp)
+    }
+}
+
+package interfaz {
+    class InterfazApp {
+        - Controlador ctrl
+        - panelBotones botones
+        - panelPistas pistas
+        - panelVidas vidas
+        + void elector()
+    }
+
+    class panelBotones {
+        - JButton[][] botones
+        - boolean[][] ganar
+        - Controlador ctrl
+        - ImageIcon x
+        + void botones()
+        + void mousePressed(MouseEvent e)
+        - boolean perder()
+        - boolean esMatrizCompletaTrue(boolean[][] matriz)
+    }
+
+    class panelPistas {
+        - Controlador ctrl
+        - String[] pistasNorte
+        - String[] pistasOeste
+        + void subPanelNorte()
+        + void subPanelOeste()
+        - void cargarPistas(String[] pistasN, String[] pistasO)
+    }
+
+    class panelVidas {
+        - ImageIcon imagen1
+        - ImageIcon imagen2
+        - JLabel vida1
+        - JLabel vida2
+        - JLabel vida3
+        + void vidas()
+        + void perderVida(int indice)
+        + ImageIcon getImagen1()
+        + void setImagen1(ImageIcon imagen1)
+        + ImageIcon getImagen2()
+        + void setImagen2(ImageIcon imagen2)
+    }
+}
+
+package mundo {
+    class Archivos {
+        + boolean verificarTablero(String lectura)
+        + String[] getPistasColumna()
+        + String[] getPistasFila()
+        + char[][] getTablero()
+        + String getArchivos()
+        + void setArchivos(String archivos)
+    }
+
+    class Verificar {
+        - char[][] matriz
+        - int vidasRestantes
+        - Archivos arc
+        + boolean verificarX(int fila, int columna)
+        + boolean verificar0(int fila, int columna)
+        - void reducirVidas()
+        + int getVidasRestantes()
+        - char[][] cargarTablero(char[][] tablero)
+        - void cargarPistas(String[] pistasN, String[] pistasO)
+        + String[] getPistasFila()
+        + String[] getPistasColumna()
+        + void cambio(String cambio)
+    }
+}
+
+InterfazApp --> Controlador
+InterfazApp --> panelBotones
+InterfazApp --> panelPistas
+InterfazApp --> panelVidas
+panelBotones --> Controlador
+panelPistas --> Controlador
+Controlador --> panelVidas
+Controlador --> Verificar
+Verificar --> Archivos
+
+@enduml
