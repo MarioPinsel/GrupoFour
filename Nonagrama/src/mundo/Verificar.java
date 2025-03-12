@@ -74,8 +74,5 @@ public class Verificar {
         return pistasColumna;
     }
 
-    public void cambio(String cambio) {
-        arc.setArchivos(cambio);
-        System.out.println("wwawawa");
-    }
+    
 }

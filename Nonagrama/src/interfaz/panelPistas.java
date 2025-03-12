@@ -52,7 +52,7 @@ public class panelPistas extends JPanel {
 
         }
 
-        panelOeste.setBounds(70, 110, 60, 450);
+        panelOeste.setBounds(60, 110, 60, 450);
         add(panelOeste);
     }
 
