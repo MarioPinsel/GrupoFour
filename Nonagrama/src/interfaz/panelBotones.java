@@ -62,13 +62,13 @@ public class panelBotones extends JPanel {
                             return;
                         }
 
-                        if (e.getButton() == MouseEvent.BUTTON1) {
+                        if (e.getButton() == MouseEvent.BUTTON3) {
                             if (ctrl.revisarX(filaActual, columnaActual)) {
                                 btn.setIcon(x);
                             } else {
                                 btn.setBackground(Color.BLACK);
                             }
-                        } else if (e.getButton() == MouseEvent.BUTTON3) {
+                        } else if (e.getButton() == MouseEvent.BUTTON1) {
                             if (ctrl.revisar0(filaActual, columnaActual)) {
                                 btn.setBackground(Color.BLACK);
                             } else {
