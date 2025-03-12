@@ -1,8 +1,6 @@
 package interfaz;
 
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
