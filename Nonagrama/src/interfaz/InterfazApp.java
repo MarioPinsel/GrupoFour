@@ -4,19 +4,14 @@ import javax.swing.JFrame;
 
 import controlador.Controlador;
 
-/**
- *
- * @author Esteban
- */
 public class InterfazApp extends JFrame {
 
     panelBotones pnlBotones;
     panelVidas pnlVidas;
     panelPistas pnlPistas;
-    private Controlador ctrl;
 
     public InterfazApp(Controlador controlador) {
-        ctrl = new Controlador();
+
         this.setLayout(null);
 
         pnlBotones = new panelBotones(controlador);

@@ -11,10 +11,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-/**
- *
- * @author Esteban
- */
 public class panelBotones extends JPanel {
 
     private JButton[][] matrizBotones;
@@ -46,7 +42,8 @@ public class panelBotones extends JPanel {
                 int bottom = (fila % 5 == 4) ? 2 : 1;
                 int right = (columna % 5 == 4) ? 2 : 1;
 
-                matrizBotones[fila][columna].setBorder(BorderFactory.createMatteBorder(top, left, bottom, right, Color.BLACK));
+                matrizBotones[fila][columna]
+                        .setBorder(BorderFactory.createMatteBorder(top, left, bottom, right, Color.BLACK));
 
                 matrizBotones[fila][columna].addMouseListener(new MouseAdapter() {
                     @Override
@@ -58,7 +55,8 @@ public class panelBotones extends JPanel {
                         JButton btn = (JButton) e.getSource();
 
                         if (perder()) {
-                            JOptionPane.showMessageDialog(null, "Has perdido!!!", "Que mal", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Has perdido!!!", "Que mal",
+                                    JOptionPane.INFORMATION_MESSAGE);
                             return;
                         }
 
@@ -77,11 +75,13 @@ public class panelBotones extends JPanel {
 
                         }
                         if (perder()) {
-                            JOptionPane.showMessageDialog(null, "Has perdido!!!", "Que mal", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Has perdido!!!", "Que mal",
+                                    JOptionPane.INFORMATION_MESSAGE);
                             return;
                         }
                         if (esMatrizCompletaTrue(ganar)) {
-                            JOptionPane.showMessageDialog(null, "Has ganado!!!", "Buena", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Has ganado!!!", "Buena",
+                                    JOptionPane.INFORMATION_MESSAGE);
                             btn.setEnabled(false);
                         }
 

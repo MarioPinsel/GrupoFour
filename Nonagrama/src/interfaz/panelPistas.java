@@ -17,27 +17,28 @@ public class panelPistas extends JPanel {
         setBorder(new CompoundBorder(new EmptyBorder(0, 0, 0, 0), new TitledBorder("")));
         setLayout(null);
         ctrl = controlador;
-        cargarPistas(ctrl.getVerificar().getPistasColumna(),ctrl.getVerificar().getPistasFila());
+
+        cargarPistas(ctrl.getVerificar().getPistasColumna(), ctrl.getVerificar().getPistasFila());
         subPanelNorte();
         subPanelOeste();
     }
 
-        public void subPanelNorte() {
-            JTextArea pistaV;
-            JPanel panelNorte = new JPanel();
-            panelNorte.setLayout(new GridLayout(1, 10));
+    public void subPanelNorte() {
+        JTextArea pistaV;
+        JPanel panelNorte = new JPanel();
+        panelNorte.setLayout(new GridLayout(1, 10));
 
-            for (int i = 0; i < 10; i++) {                
-                pistaV = new JTextArea(pistasNorte[i]);                 
-                pistaV.setEditable(false);
-                pistaV.setOpaque(false);
-                panelNorte.add(pistaV);
+        for (int i = 0; i < 10; i++) {
+            pistaV = new JTextArea(pistasNorte[i]);
+            pistaV.setEditable(false);
+            pistaV.setOpaque(false);
+            panelNorte.add(pistaV);
 
-            }
-
-            panelNorte.setBounds(120, 20, 450, 80);
-            add(panelNorte);
         }
+
+        panelNorte.setBounds(120, 20, 450, 80);
+        add(panelNorte);
+    }
 
     public void subPanelOeste() {
         JTextArea pistaV;

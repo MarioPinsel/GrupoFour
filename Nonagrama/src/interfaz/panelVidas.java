@@ -8,10 +8,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-/**
- *
- * @author Esteban
- */
 public class panelVidas extends JPanel {
 
     private ImageIcon imagen1;
