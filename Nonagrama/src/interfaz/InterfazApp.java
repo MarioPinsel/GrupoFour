@@ -6,9 +6,9 @@ import controlador.Controlador;
 
 public class InterfazApp extends JFrame {
 
-    panelBotones pnlBotones;
-    panelVidas pnlVidas;
-    panelPistas pnlPistas;
+    private panelBotones pnlBotones;
+    private panelVidas pnlVidas;
+    private panelPistas pnlPistas;
 
     public InterfazApp(Controlador controlador) {
 

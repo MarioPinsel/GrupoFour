@@ -1,0 +1,118 @@
+@startuml
+
+skinparam packageStyle rectangle
+
+skinparam linetype ortho  ' Usa líneas ortogonales para mejorar la lectura
+
+left to right direction  
+
+package controlador {
+    class Controlador {
+        - panelVidas panelVidas
+        - Verificar verificar
+        + setInstance(panelVidas panelVidas): void
+        + revisarX(int fila, int columna): boolean
+        + revisar0(int fila, int columna): boolean
+        + getVerificar(): Verificar
+    }
+}
+
+package interfaz {
+    class JPanel
+    class JFrame
+
+    class InterfazApp {
+        - panelBotones pnlBotones
+        - panelVidas pnlVidas
+        - panelPistas pnlPistas
+        + InterfazApp(Controlador controlador): void
+    }
+    
+    class panelBotones {
+        - JButton[][] matrizBotones
+        - boolean[][] ganar
+        - Controlador ctrl
+        - ImageIcon x
+        + botones(): void
+        + mousePressed(MouseEvent e): void
+        - perder(): boolean
+        - matrizCompleta(boolean[][] matriz): boolean
+    }
+    
+    class panelPistas {
+        - Controlador ctrl
+        - String[] pistasNorte
+        - String[] pistasOeste
+        + subPanelNorte(): void
+        + subPanelOeste(): void
+        - cargarPistas(String[] pistasN, String[] pistasO): void
+    }
+    
+    class panelVidas {
+        - ImageIcon imagen1
+        - ImageIcon imagen2
+        - JLabel vida1
+        - JLabel vida2
+        - JLabel vida3
+        + vidas(): void
+        + perderVida(int indice): void
+        + getImagen1(): ImageIcon
+        + setImagen1(ImageIcon imagen1): void
+        + getImagen2(): ImageIcon
+        + setImagen2(ImageIcon imagen2): void
+    }
+
+    ' Herencia agregada
+    JPanel <|-- panelBotones
+    JPanel <|-- panelPistas
+    JPanel <|-- panelVidas
+    JFrame <|-- InterfazApp
+}
+
+package mundo {
+    class Archivos {
+        - String[] final pistasFila
+        - String[] final pistasColumna
+        - char[][] final tablero
+        - cargarPistas(): void
+        + verificarTablero(String lectura): boolean
+        + getPistasColumna(): String[]
+        + getPistasFila(): String[]
+        + getTablero(): char[][]
+    }
+    
+    class Verificar {
+        - String [] pistasColumna
+        - String[] pistasFila
+        - char[][] matriz
+        - int vidasRestantes
+        - Archivos arc
+        + verificarX(int fila, int columna): boolean
+        + verificar0(int fila, int columna): boolean
+        - reducirVidas(): void
+        + getVidasRestantes(): int
+        - cargarTablero(char[][] tablero): char[][]
+        - cargarPistas(String[] pistasN, String[] pistasO): void
+        + getPistasFila(): String[]
+        + getPistasColumna(): String[]
+    }
+}
+
+' Organizando relaciones para evitar cruces
+together {
+    InterfazApp --> panelBotones : <<create>> pnlBotones
+    InterfazApp --> panelPistas : <<create>> pnlPistas
+    InterfazApp --> panelVidas : <<create>> pnlVidas
+}
+
+together {
+    Controlador --> Verificar : <<create>> verificar
+    Controlador --> panelVidas : <<parameter>> pnlVidas
+}
+
+together {
+    panelBotones --> Controlador : <<parameter>> ctrl
+    Verificar --> Archivos : <<create>> arc
+}
+
+@enduml

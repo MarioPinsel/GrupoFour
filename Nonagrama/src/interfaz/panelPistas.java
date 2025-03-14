@@ -17,7 +17,6 @@ public class panelPistas extends JPanel {
         setBorder(new CompoundBorder(new EmptyBorder(0, 0, 0, 0), new TitledBorder("")));
         setLayout(null);
         ctrl = controlador;
-
         cargarPistas(ctrl.getVerificar().getPistasColumna(), ctrl.getVerificar().getPistasFila());
         subPanelNorte();
         subPanelOeste();

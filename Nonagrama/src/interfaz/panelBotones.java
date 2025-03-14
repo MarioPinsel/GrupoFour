@@ -79,7 +79,7 @@ public class panelBotones extends JPanel {
                                     JOptionPane.INFORMATION_MESSAGE);
                             return;
                         }
-                        if (esMatrizCompletaTrue(ganar)) {
+                        if (matrizCompleta(ganar)) {
                             JOptionPane.showMessageDialog(null, "Has ganado!!!", "Buena",
                                     JOptionPane.INFORMATION_MESSAGE);
                             btn.setEnabled(false);
@@ -101,7 +101,7 @@ public class panelBotones extends JPanel {
         return false;
     }
 
-    private boolean esMatrizCompletaTrue(boolean[][] matriz) {
+    private boolean matrizCompleta(boolean[][] matriz) {
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[i].length; j++) {
                 if (!matriz[i][j]) {
