@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
-package chat;
+package interfaz;
 
 import javax.swing.JFrame;
 
@@ -13,10 +9,14 @@ import javax.swing.JFrame;
 public class InterfazApp extends JFrame{
 
     public InterfazApp() {
+        panelInformacion pnlInfo = new panelInformacion();
+        
         this.setTitle("Personal Chat");
         this.setSize(650, 650);
         this.setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        add(pnlInfo);
     }
    
     public static void main(String[] args) {
