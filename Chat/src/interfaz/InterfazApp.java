@@ -1,8 +1,15 @@
+
 package interfaz;
 
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.border.Border;
+
+
+package interfaz;
+
+import javax.swing.JFrame;
+
 
 /**
  *
@@ -11,6 +18,7 @@ import javax.swing.border.Border;
 public class InterfazApp extends JFrame{
 
     public InterfazApp() {
+
         panelInformacion pnlInfo = new panelInformacion();
         panelChat pnlC = new panelChat();
         panelMensaje pnlmsg = new panelMensaje();
@@ -22,7 +30,12 @@ public class InterfazApp extends JFrame{
         
         add(pnlInfo, BorderLayout.NORTH);        
         add(pnlC, BorderLayout.CENTER);
-        add(pnlmsg,BorderLayout.SOUTH );
+        add(pnlmsg,BorderLayout.SOUTH 
+        this.setTitle("Personal Chat");
+        this.setSize(650, 650);
+        this.setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
    
     public static void main(String[] args) {
