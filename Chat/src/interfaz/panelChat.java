@@ -14,25 +14,25 @@ import javax.swing.border.TitledBorder;
  * @author Esteban
  */
 public class panelChat extends JPanel {
-    
+
     private JTextArea chat;
-    
+
     public panelChat() {
         setBorder(new CompoundBorder(new EmptyBorder(0, 0, 0, 0), new TitledBorder("")));
-        setLayout(new BorderLayout());    
+        setLayout(new BorderLayout());
         chat();
     }
-    
+
     private void chat() {
         chat = new JTextArea();
         chat.setEditable(false);
         JScrollPane chatScrollPane = new JScrollPane(chat);
         add(chatScrollPane, BorderLayout.CENTER);
     }
-    
+
     public void agregarMensaje(String mensaje) {
+        mensaje = mensaje.replaceAll("[^\\p{Print}]", "");
         chat.append(mensaje + "\n");
     }
+
 }
-
-
