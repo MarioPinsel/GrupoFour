@@ -1,7 +1,10 @@
 package interfaz;
 
+import controlador.Controlador;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -15,23 +18,30 @@ import javax.swing.border.TitledBorder;
  */
 public class panelMensaje extends JPanel {
 
-    public panelMensaje() {
+    private Controlador ctrl;
+    private JTextArea msg;
+    private JButton enviar;
+
+    public panelMensaje(Controlador controlador) {
         setBorder(new CompoundBorder(new EmptyBorder(0, 0, 0, 0), new TitledBorder("")));
         setLayout(new FlowLayout());
+        ctrl = controlador;
         mensaje();
-        botoncito();
     }
-
-    public void mensaje() {
-        JTextArea msg = new JTextArea(2,20);
-        //msg.setPreferredSize(new Dimension(300, 30));
+    
+    private void mensaje() {
+        msg = new JTextArea(2, 20);
         add(msg);
-
-    }
-
-    public void botoncito() {
-       JButton enviar = new JButton("send");
-       add(enviar);
+        
+        enviar = new JButton("send");
+        enviar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String texto = msg.getText();
+                ctrl.obtenerTodaInformacion(texto);
+            }
+        });
+        add(enviar);
     }
 
 }
