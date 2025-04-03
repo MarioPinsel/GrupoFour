@@ -1,9 +1,9 @@
 
 package interfaz;
 
+import controlador.Controlador;
 import java.awt.BorderLayout;
-import javax.swing.JFrame;
-import javax.swing.border.Border;
+
 
 
 
@@ -16,11 +16,12 @@ import javax.swing.JFrame;
  */
 public class InterfazApp extends JFrame{
 
-    public InterfazApp() {
+    public InterfazApp(Controlador ctrl) {
 
         panelInformacion pnlInfo = new panelInformacion();
         panelChat pnlC = new panelChat();
-        panelMensaje pnlmsg = new panelMensaje();
+        panelMensaje pnlmsg = new panelMensaje(ctrl);
+        ctrl.setInstance(pnlInfo, pnlC);
         
         this.setTitle("Personal Chat");
         this.setSize(400, 300);
@@ -38,7 +39,7 @@ public class InterfazApp extends JFrame{
     }
    
     public static void main(String[] args) {
-        InterfazApp frmMain = new InterfazApp();
+        InterfazApp frmMain = new InterfazApp(new Controlador());
         frmMain.setVisible(true);
     }
     
