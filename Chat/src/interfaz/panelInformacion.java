@@ -9,29 +9,25 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-/**
- *
- * @author Esteban
- */
 public class panelInformacion extends JPanel {
-    
+
     private JTextField direccion;
     private JTextField nick;
-    
+
     public panelInformacion() {
         setBorder(new CompoundBorder(new EmptyBorder(0, 0, 0, 0), new TitledBorder("")));
-        setLayout(new FlowLayout());        
+        setLayout(new FlowLayout());
         informacion();
     }
-    
+
     private void informacion() {
         JLabel ip = new JLabel("IP:");
         add(ip);
         direccion = new JTextField(10);
         add(direccion);
-        
-        JLabel wawa = new JLabel("Nick:");
-        add(wawa);
+
+        JLabel user = new JLabel("Nick:");
+        add(user);
         nick = new JTextField(10);
         add(nick);
     }
@@ -43,7 +39,5 @@ public class panelInformacion extends JPanel {
     public String getNick() {
         return nick.getText();
     }
-    
-    
-    
+
 }

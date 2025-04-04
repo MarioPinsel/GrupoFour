@@ -12,10 +12,6 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-/**
- *
- * @author Esteban
- */
 public class panelMensaje extends JPanel {
 
     private Controlador ctrl;
@@ -28,11 +24,11 @@ public class panelMensaje extends JPanel {
         ctrl = controlador;
         mensaje();
     }
-    
+
     private void mensaje() {
         msg = new JTextArea(2, 20);
         add(msg);
-        
+
         enviar = new JButton("send");
         enviar.addActionListener(new ActionListener() {
             @Override
