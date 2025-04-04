@@ -39,6 +39,7 @@ public class panelMensaje extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String texto = msg.getText();
                 ctrl.obtenerTodaInformacion(texto);
+                msg.setText("");
             }
         });
         add(enviar);

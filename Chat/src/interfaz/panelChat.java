@@ -16,7 +16,7 @@ import javax.swing.border.TitledBorder;
 public class panelChat extends JPanel {
 
     private JTextArea chat;
-
+    
     public panelChat() {
         setBorder(new CompoundBorder(new EmptyBorder(0, 0, 0, 0), new TitledBorder("")));
         setLayout(new BorderLayout());
@@ -31,7 +31,6 @@ public class panelChat extends JPanel {
     }
 
     public void agregarMensaje(String mensaje) {
-        mensaje = mensaje.replaceAll("[^\\p{Print}]", "");
         chat.append(mensaje + "\n");
     }
 
