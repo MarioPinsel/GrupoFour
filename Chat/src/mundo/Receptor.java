@@ -1,35 +1,31 @@
 package mundo;
 
-import java.io.BufferedReader;
+import controlador.Controlador;
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-
-import controlador.Controlador;
 
 public class Receptor extends Thread {
-    private Controlador ctrl;
+
+    private Controlador controlador;
 
     public Receptor(Controlador ctrl) {
-        this.ctrl = ctrl;
+        this.controlador = ctrl;
+        start();
     }
 
     @Override
     public void run() {
         try (ServerSocket serverSocket = new ServerSocket(5000)) {
-            System.out.println("Servidor iniciado en el puerto 5000...");
-
             while (true) {
-                try (Socket socket = serverSocket.accept();
-                        BufferedReader inBuffer = new BufferedReader(
-                                new InputStreamReader(socket.getInputStream()))) {
+                try (Socket socket = serverSocket.accept(); 
+                        DataInputStream inBuffer = new DataInputStream(socket.getInputStream())) { 
 
-                    String msg = inBuffer.readLine();
+                    String msg = inBuffer.readUTF(); 
 
                     if (msg != null) {
-                        ctrl.mostrarTexto(msg);
+                        controlador.mostrarTexto(msg);
                     }
 
                 } catch (IOException e) {
@@ -40,4 +36,5 @@ public class Receptor extends Thread {
             System.err.println("Error al iniciar el servidor: " + e.getMessage());
         }
     }
+
 }
