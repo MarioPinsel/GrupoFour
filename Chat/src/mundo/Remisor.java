@@ -16,11 +16,11 @@ public class Remisor {
     public void enviarMensaje() {
         String ip = cliente.getIp();
         String mensaje = cliente.getMensaje();
-
+        String nick = cliente.getNick();
         try {
-            Socket client = new Socket(ip, 5050); // portSend 5000
+            Socket client = new Socket(ip, 5000); // portSend 5000
             DataOutputStream outBuffer = new DataOutputStream(client.getOutputStream());
-            outBuffer.writeUTF(mensaje);
+            outBuffer.writeUTF(nick + ": " + mensaje);
             client.close();
         } catch (UnknownHostException e) {
             JOptionPane.showMessageDialog(null, "Error: IP desconocida " + e.getMessage());

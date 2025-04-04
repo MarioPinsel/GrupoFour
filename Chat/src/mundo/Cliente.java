@@ -3,10 +3,12 @@ package mundo;
 public class Cliente {
     private String ip;
     private String mensaje;
+    private String nick;
 
-    public Cliente(String ip, String mensaje) {
+    public Cliente(String ip, String mensaje, String nick) {
         this.ip = ip;
         this.mensaje = mensaje;
+        this.nick = nick;
     }
 
     public void setIp(String ip) {
@@ -24,4 +26,13 @@ public class Cliente {
     public String getMensaje() {
         return mensaje;
     }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public void setNick(String nick) {
+        this.nick = nick;
+    }
+    
 }

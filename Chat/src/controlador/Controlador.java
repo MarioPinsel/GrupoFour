@@ -15,7 +15,7 @@ public class Controlador {
     private Receptor receptor;
 
     public Controlador() {
-        cliente = new Cliente("", "");
+        cliente = new Cliente("", "", "");
         remisor = new Remisor(cliente);
 
         receptor = new Receptor(this);
@@ -32,12 +32,12 @@ public class Controlador {
 
         cliente.setIp(panelInfo.getDireccion());
         cliente.setMensaje(msg);
-
+        cliente.setNick(panelInfo.getNick());
         remisor.enviarMensaje();
     }
 
     public void mostrarTexto(String msg) {
-        panelChat.agregarMensaje("Mario:" + msg);
+        panelChat.agregarMensaje(msg);
     }
 
 }
