@@ -3,31 +3,29 @@ package gfutria;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * @since 11/11/2024
- * @version 1.1
- * @author gfutria
- */
-public class Neurons implements Serializable
-{ private ArrayList<String> neurons;
+public class Neurons implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private ArrayList<String> neurons;
 
-  public Neurons() 
-  { neurons = new ArrayList<String>(); }
-   
-  public ArrayList<String> getNeurons() { return neurons; }
+    public Neurons() {
+        this.neurons = new ArrayList<>();
+    }
 
-  public boolean verify(String key)
-  { if (neurons.contains(key)) return true;
-    return false;
-  }
+    // Verifica si ya se ha almacenado una jugada
+    public boolean verify(String key) {
+        return neurons.contains(key);
+    }
 
-  public void save(String key)
-  { neurons.add(key);
-  }
-  
-  public int size()
-  { return neurons.size();      
-  }
-  
-   
+    // Guarda una jugada si no se ha registrado antes
+    public void save(String key) {
+        if (!verify(key)) {
+            neurons.add(key);
+        }
+    }
+
+    // Devuelve la lista de jugadas registradas
+    public ArrayList<String> getNeurons() {
+        return neurons;
+    }
 }
+
