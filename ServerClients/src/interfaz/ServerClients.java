@@ -4,6 +4,8 @@
  */
 package interfaz;
 
+import controlador.Controlador;
+
 /**
  *
  * @author Esteban
@@ -14,7 +16,8 @@ public class ServerClients {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Controlador controlador = new Controlador();
+        controlador.ejecutar();
     }
     
 }

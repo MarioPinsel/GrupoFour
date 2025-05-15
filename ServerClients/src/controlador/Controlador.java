@@ -21,7 +21,6 @@ public class Controlador {
     public void ejecutar() {
         List<String> lineas = new ArrayList<>();
         lineas = archivos.leerArchivo();
-
         
         
     }
