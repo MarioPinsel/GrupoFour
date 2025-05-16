@@ -4,6 +4,9 @@
  */
 package interfaz;
 
+import java.util.ArrayList;
+import mundoServidor.Servidor;
+
 /**
  *
  * @author Esteban
@@ -14,7 +17,9 @@ public class ServerClients {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        ArrayList<String> lista = new ArrayList<>();
+        lista.add("wabba-wabba-w");
+       Servidor server = new Servidor(lista);
     }
     
 }
