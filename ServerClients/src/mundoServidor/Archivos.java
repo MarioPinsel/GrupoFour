@@ -28,8 +28,11 @@ public class Archivos {
             }
         } catch (IOException e) {
             System.out.println("Error al leer archivo: " + e.getMessage());
+            
+            System.out.println("wa");
         }
         return lineas;
+            
     }
     
     
