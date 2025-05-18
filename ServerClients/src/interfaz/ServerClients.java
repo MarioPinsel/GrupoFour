@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package interfaz;
-
 
 import controlador.Controlador;
 
 import java.util.ArrayList;
-import mundoServidor.Servidor;
-
+import mundoServidor.*;
 
 /**
  *
@@ -26,9 +20,9 @@ public class ServerClients {
         controlador.ejecutar();
 
         ArrayList<String> lista = new ArrayList<>();
-        lista.add("wabba-wabba-w");
-       Servidor server = new Servidor(lista);
+        lista.add("wabba-wabba-wabba-wabba-ctm-ctm-ctm.Yucapapi");
+        Codificador cod = new Codificador(lista);
 
     }
-    
+
 }

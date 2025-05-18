@@ -1,6 +1,12 @@
 package mundoServidor;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Logger;
 
 /**
  *
@@ -8,60 +14,73 @@ import java.util.ArrayList;
  */
 public class Servidor {
 
-    private ArrayList<String> lista; //Lista de txt
-    private ArrayList<Integer> salida; // lista de numeros
-    private ArrayList<String> diccionario;
+    private ArrayList<redMensajes> listaIps;
 
-    public Servidor(ArrayList<String> lista) {
-        this.lista = lista;
-        salida = new ArrayList<>();
-        diccionario = new ArrayList<>();
-        codificacion();
-    }
+    public Servidor(ArrayList<String> ips) {
+        listaIps = new ArrayList<>();
 
-    public void codificacion() {
-        String PE = "";
-        String PS = "";
-        String SE = "";
-        boolean first = false;
-
-        for (String enunciado : lista) {
-            if (!first) {
-                PE = enunciado.charAt(0) + "";
-                SE = enunciado.charAt(1) + "";
-                first = true;
-            }
-            for (int i = 0; i <= enunciado.length() - 1; i++) {
-                PS = PE + SE;
-                if (!buscarDiccionario(PS)) {
-                    diccionario.add(PS);
-                    if (PE.length() == 1) {
-                        salida.add((int) PE.charAt(0));
-                    } else {
-                        salida.add(diccionario.indexOf(PE) + 126 + 1);
-                    }
-                    PE = SE;
-                    if (i < enunciado.length() - 2) {
-                        SE = enunciado.charAt(i + 2) + "";
-                    }
-
-                } else {
-                    PE = PS;
-                    if (i < enunciado.length() - 2) {
-                        SE = enunciado.charAt(i + 2) + "";
-                    }
+        for (String ip : ips) {
+            LinkedBlockingQueue<Integer> cola;
+            listaIps.add(new redMensajes(cola = new LinkedBlockingQueue<>(), ip));
+            new Thread(
+                    new Runnable() {
+                @Override
+                public void run() {
+                    enviar(ip, cola);
                 }
             }
-        }
-        for (int num : salida) {
-            System.out.println(num);
-        }
-        for (String wa : diccionario) {
-            System.out.println(wa);
+            ).start();
         }
     }
 
-    private boolean buscarDiccionario(String entrada) {
-        return diccionario.contains(entrada);
+    private void enviar(String ip, LinkedBlockingQueue<Integer> cola) {
+        while(true){
+            try {
+                int data = cola.take();
+                socket(ip, data);
+            } catch (InterruptedException ex) {
+                Logger.getLogger("ENVIAR: fallo en el hilo de envio");
+            }
+        }
+
+    }
+
+    private void socket(String ip, int data) {
+        try {
+            Socket cliente = new Socket(ip, 5000);
+            DataOutputStream outBuffer = new DataOutputStream(cliente.getOutputStream());
+            outBuffer.write(data);
+            cliente.close();
+
+        } catch (IOException e) {
+            Logger.getLogger("SOCKET: fallo al enviar en ip " + ip);
+        }
+    }
+    
+    public void añadirData(int data){
+        for(redMensajes mensaje: listaIps){
+            mensaje.getColaEspecifica().add(data);
+        }
+    }
+
+    private class redMensajes {
+
+        private BlockingQueue<Integer> colaEspecifica;
+        private String IP;
+
+        public redMensajes(BlockingQueue<Integer> colaEspecifica, String IP) {
+            this.colaEspecifica = colaEspecifica;
+            this.IP = IP;
+        }
+
+        public BlockingQueue<Integer> getColaEspecifica() {
+            return colaEspecifica;
+        }
+
+        public String getIP() {
+            return IP;
+        }
+        
+
     }
 }
