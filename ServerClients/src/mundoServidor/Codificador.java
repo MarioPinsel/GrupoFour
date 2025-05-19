@@ -9,9 +9,9 @@ import java.util.Queue;
  */
 public class Codificador {
 
-    private ArrayList<String> lista; //Lista de txt
-    private ArrayList<Integer> salida; // lista de numeros
-    private ArrayList<String> diccionario; //lista de combinaciones
+    private ArrayList<String> lista; // Lista de txt
+    private ArrayList<Integer> salida; // Lista de numeros
+    private ArrayList<String> diccionario; // Lista de combinaciones
     private Queue<Integer> lastttt;
 
     public Codificador(ArrayList<String> lista) {
@@ -54,10 +54,7 @@ public class Codificador {
                         SE = enunciado.charAt(i + 2) + "";
                     }
                 }
-            }
-            PE =  SE;
-            diccionario.add(PE);
-            salida.add(diccionario.indexOf(PE) + 255 + 1);
+            }               
         }
         for (int num : salida) {
             System.out.println(num);
