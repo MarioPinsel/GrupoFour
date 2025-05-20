@@ -1,7 +1,6 @@
 package mundoServidor;
 
 import java.util.ArrayList;
-import java.util.Queue;
 
 /**
  *
@@ -12,13 +11,13 @@ public class Codificador {
     private ArrayList<String> lista; // Lista de txt
     private ArrayList<Integer> salida; // Lista de numeros
     private ArrayList<String> diccionario; // Lista de combinaciones
-    private Queue<Integer> lastttt;
 
-    public Codificador(ArrayList<String> lista) {
-        this.lista = lista;
+    public Codificador() {
+        Archivos arc = new Archivos();        
+        this.lista = arc.getLineas();
         salida = new ArrayList<>();
         diccionario = new ArrayList<>();
-        
+
         codificacion();
     }
 
@@ -32,35 +31,50 @@ public class Codificador {
             if (!first) {
                 PE = enunciado.charAt(0) + "";
                 SE = enunciado.charAt(1) + "";
-                first = true;
+                first = true;   
             }
-            for (int i = 0; i <= enunciado.length() - 2; i++) {
+            
+            for (int i = 2; i <= enunciado.length(); i++) {
                 PS = PE + SE;
                 if (!buscarDiccionario(PS)) {
                     diccionario.add(PS);
+                    
                     if (PE.length() == 1) {
                         salida.add((int) PE.charAt(0));
                     } else {
-                        salida.add(diccionario.indexOf(PE) + 255 + 1);
+                        salida.add(diccionario.indexOf(PE) + 256);
                     }
+                    
                     PE = SE;
-                    if (i < enunciado.length() - 2) {
-                        SE = enunciado.charAt(i + 2) + "";
+                    if (i < enunciado.length()) {
+                        SE = enunciado.charAt(i) + "";
                     }
-
+                    
                 } else {
+                    
                     PE = PS;
-                    if (i < enunciado.length() - 2) {
-                        SE = enunciado.charAt(i + 2) + "";
+                    if (i < enunciado.length()) {
+                        SE = enunciado.charAt(i) + "";
                     }
+                    
                 }
-            }               
+            }
+            if (PE.length() == 1) {
+                salida.add((int) PE.charAt(0));
+            } else {
+                salida.add(diccionario.indexOf(PE) + 256);
+            }
+            first = false;
+        }  
+        
+        salida.add(-1);
+        
+        for(String zaza: diccionario){
+            System.out.println(zaza);
         }
-        for (int num : salida) {
-            System.out.println(num);
-        }
-        for (String wa : diccionario) {
-            System.out.println(wa);
+        
+        for(int pito: salida){
+            System.out.println(pito);
         }
     }
 

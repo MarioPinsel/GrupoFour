@@ -47,7 +47,7 @@ public class Servidor {
 
     private void socket(String ip, int data) {
         try {
-            Socket cliente = new Socket(ip, 5000);
+            Socket cliente = new Socket(ip, 5050);
             DataOutputStream outBuffer = new DataOutputStream(cliente.getOutputStream());
             outBuffer.write(data);
             cliente.close();
@@ -57,7 +57,7 @@ public class Servidor {
         }
     }
     
-    public void añadirData(int data){
+    private void añadirData(int data){
         for(redMensajes mensaje: listaIps){
             mensaje.getColaEspecifica().add(data);
         }

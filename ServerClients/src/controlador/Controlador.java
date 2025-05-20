@@ -18,10 +18,9 @@ public class Controlador {
         this.archivos = new Archivos();
     }
 
-    public void ejecutar() {
-        List<String> lineas = new ArrayList<>();
-        lineas = archivos.leerArchivo();
-        
-        
-    }
+//    public void ejecutar() {
+//        List<String> lineas = new ArrayList<>();
+//        lineas = archivos.leerArchivo();
+//  
+//    }
 }
