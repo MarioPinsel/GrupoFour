@@ -14,6 +14,7 @@ public class Decodificador {
         } else {
             decodificar(paco, primeraEntrada);
             paco = primeraEntrada;
+            
         }
     }
 
@@ -25,7 +26,7 @@ public class Decodificador {
         }
     }
 
-    public String decodificar(int paco, int luis) {
+    public void decodificar(int paco, int luis) {
         String pe = obtenerEntrada(paco);
         String se = obtenerEntrada(luis);
 
@@ -36,19 +37,15 @@ public class Decodificador {
         }
 
         traduccion += pe;
-
-        return traduccion;
-    }
-
-    public void imprimir() {
-        for (String entrada : diccionario) {
-            System.out.println(entrada);
-        }
-
+        System.out.println(traduccion);
     }
 
     public ArrayList<String> getDiccionario() {
         return diccionario;
     }
-
+    
+    public String getTraduccion(){
+        System.out.println(traduccion);
+        return traduccion;
+    }
 }
