@@ -10,17 +10,18 @@ import mundoServidor.Servidor;
  *
  * @author User
  */
-public class Controlador {
-        private Archivos archivos;
+public class Controlador {        
         private Servidor servidor;
 
-    public Controlador() {
-        this.archivos = new Archivos();
+    public Controlador() {        
     }
+    
+    public void setInstance(ArrayList<String> ips){
+        servidor = new Servidor(ips);
+        servidor.añadirData();
+    }
+    
+    
 
-//    public void ejecutar() {
-//        List<String> lineas = new ArrayList<>();
-//        lineas = archivos.leerArchivo();
-//  
-//    }
+
 }

@@ -15,8 +15,10 @@ import java.util.logging.Logger;
 public class Servidor {
 
     private ArrayList<redMensajes> listaIps;
+    private Codificador cod;
 
     public Servidor(ArrayList<String> ips) {
+        cod = new Codificador();
         listaIps = new ArrayList<>();
 
         for (String ip : ips) {
@@ -34,7 +36,7 @@ public class Servidor {
     }
 
     private void enviar(String ip, LinkedBlockingQueue<Integer> cola) {
-        while(true){
+        while (true) {
             try {
                 int data = cola.take();
                 socket(ip, data);
@@ -56,10 +58,13 @@ public class Servidor {
             Logger.getLogger("SOCKET: fallo al enviar en ip " + ip);
         }
     }
-    
-    private void añadirData(int data){
-        for(redMensajes mensaje: listaIps){
-            mensaje.getColaEspecifica().add(data);
+
+    public void añadirData() {
+        ArrayList<Integer> salida = cod.getSalida();
+        for (int data : salida) {
+            for (redMensajes mensaje : listaIps) {
+                mensaje.getColaEspecifica().add(data);
+            }
         }
     }
 
@@ -80,7 +85,7 @@ public class Servidor {
         public String getIP() {
             return IP;
         }
-        
 
     }
 }
+
