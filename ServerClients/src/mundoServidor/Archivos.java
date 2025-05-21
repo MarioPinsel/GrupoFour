@@ -28,8 +28,9 @@ public class Archivos {
         try (BufferedReader lector = new BufferedReader(new InputStreamReader(ruta))) {
             String linea;
             while ((linea = lector.readLine()) != null) {
-                System.out.println(linea+"");
-                lineas.add(linea);                
+                //System.out.println(linea+"");
+                lineas.add(linea + "\n");    
+                
             }
         } catch (IOException e) {
             System.out.println("Error al leer archivo: " + e.getMessage());

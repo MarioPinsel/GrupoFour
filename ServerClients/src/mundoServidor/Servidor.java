@@ -1,91 +1,92 @@
 package mundoServidor;
 
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Esteban
- */
 public class Servidor {
 
-    private ArrayList<redMensajes> listaIps;
+    private ArrayList<RedMensajes> listaIps;
     private Codificador cod;
+    private Queue<Integer> salida;
 
     public Servidor(ArrayList<String> ips) {
         cod = new Codificador();
         listaIps = new ArrayList<>();
+        salida = new LinkedList<>();
 
         for (String ip : ips) {
-            LinkedBlockingQueue<Integer> cola;
-            listaIps.add(new redMensajes(cola = new LinkedBlockingQueue<>(), ip));
-            new Thread(
-                    new Runnable() {
-                @Override
-                public void run() {
-                    enviar(ip, cola);
+            RedMensajes red = new RedMensajes(ip);
+            listaIps.add(red);
+
+            new Thread(() -> {
+                try {
+                    // Esto envía un mensaje inicial (puedes cambiar el 0 si quieres que espere)
+                    enviar(red, 0);
+                } catch (IOException ex) {
+                    System.err.println("ERROR: El socket petó para IP: " + red.getIP());
+                    ex.printStackTrace();
                 }
-            }
-            ).start();
+            }).start();
         }
     }
 
-    private void enviar(String ip, LinkedBlockingQueue<Integer> cola) {
-        while (true) {
-            try {
-                int data = cola.take();
-                socket(ip, data);
-            } catch (InterruptedException ex) {
-                Logger.getLogger("ENVIAR: fallo en el hilo de envio");
-            }
-        }
-
+    private void enviar(RedMensajes red, int info) throws IOException {
+        // Enviar un solo dato (puedes ponerlo en bucle si lo deseas)
+        socket(red, info);
     }
 
-    private void socket(String ip, int data) {
+    private void socket(RedMensajes red, int data) {
         try {
-            Socket cliente = new Socket(ip, 5050);
-            DataOutputStream outBuffer = new DataOutputStream(cliente.getOutputStream());
-            outBuffer.write(data);
-            cliente.close();
-
+            DataOutputStream outBuffer = new DataOutputStream(red.getSocket().getOutputStream());
+            outBuffer.writeInt(data);
         } catch (IOException e) {
-            Logger.getLogger("SOCKET: fallo al enviar en ip " + ip);
+            System.err.println("SOCKET: fallo al enviar en IP " + red.getIP());
+            e.printStackTrace();
         }
     }
 
     public void añadirData() {
-        ArrayList<Integer> salida = cod.getSalida();
-        for (int data : salida) {
-            for (redMensajes mensaje : listaIps) {
-                mensaje.getColaEspecifica().add(data);
+        ArrayList<Integer> datos = cod.getSalida();
+        for (RedMensajes mensaje : listaIps) {
+            for (int data : datos) {
+                try {
+                    enviar(mensaje, data);
+                } catch (IOException ex) {
+                    System.err.println("ERROR: No se están enviando los datos correctamente a " + mensaje.getIP());
+                    ex.printStackTrace();
+                }
             }
         }
     }
 
-    private class redMensajes {
+    private class RedMensajes {
 
-        private BlockingQueue<Integer> colaEspecifica;
         private String IP;
+        private Socket socket;
 
-        public redMensajes(BlockingQueue<Integer> colaEspecifica, String IP) {
-            this.colaEspecifica = colaEspecifica;
-            this.IP = IP;
-        }
-
-        public BlockingQueue<Integer> getColaEspecifica() {
-            return colaEspecifica;
+        public RedMensajes(String ip) {
+            this.IP = ip;
+            try {
+                this.socket = new Socket(ip, 5050);
+            } catch (IOException ex) {
+                System.err.println("ERROR: Creación de socket fallida para IP: " + ip);
+                ex.printStackTrace();
+            }
         }
 
         public String getIP() {
             return IP;
         }
 
+        public Socket getSocket() {
+            return socket;
+        }
     }
 }
-
