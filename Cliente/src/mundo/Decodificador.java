@@ -11,8 +11,11 @@ public class Decodificador {
     private int paco = 0;
     private String traduccion = "";
     private ArrayList<String> diccionario = new ArrayList<>();
+    private boolean usarRojo = true;
+    private ArrayList<String> bloquesColoreados = new ArrayList<>();
 
     public void procesar(int primeraEntrada) {
+
         if (paco == 0) {
             paco = primeraEntrada;
         } else {
@@ -38,16 +41,35 @@ public class Decodificador {
         if (!diccionario.contains(ps)) {
             diccionario.add(ps);
         }
-       
 
         traduccion += pe;
+
+        if (usarRojo) {
+            bloquesColoreados.add(RED + pe + RESET);
+        } else {
+            bloquesColoreados.add(BLUE + pe + RESET);
+        }
+        usarRojo = !usarRojo;
     }
 
-    public ArrayList<String> getDiccionario() {
-        return diccionario;
+    public void imprimir() {
+        if (paco != 0) {
+            String ultimo = obtenerEntrada(paco);
+            traduccion += ultimo;
+
+            if (usarRojo) {
+                bloquesColoreados.add(RED + ultimo + RESET);
+            } else {
+                bloquesColoreados.add(BLUE + ultimo + RESET);
+            }
+            usarRojo = !usarRojo;
+            paco = 0;
+        }
+
+        for (String bloque : bloquesColoreados) {
+            System.out.print(bloque);
+        }
+        System.out.println();
     }
 
-    public String getTraduccion() {
-        return traduccion;
-    }
 }

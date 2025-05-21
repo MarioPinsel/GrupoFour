@@ -19,14 +19,16 @@ public class Receptor extends Thread {
         try (ServerSocket serverSocket = new ServerSocket(5050)) {
             while (true) {
                 try (
-                        Socket socket = serverSocket.accept(); DataInputStream inBuffer = new DataInputStream(socket.getInputStream())) {
+                        Socket socket = serverSocket.accept();
+                        DataInputStream inBuffer = new DataInputStream(socket.getInputStream())) {
                     while (true) {
                         int valor = inBuffer.readInt();
                         if (valor == -1) {
-                            System.out.println(decodificador.getTraduccion());
+                            decodificador.imprimir();
                             break;
+                        } else {
+                            decodificador.procesar(valor);
                         }
-                        decodificador.procesar(valor);
                     }
 
                 } catch (IOException e) {

@@ -1,8 +1,6 @@
 package controlador;
 
-import java.util.ArrayList;
-import mundo.Decodificador;
-import mundo.Receptor;
+import mundo.*;
 
 public class Controlador {
 
@@ -13,20 +11,6 @@ public class Controlador {
         decodificador = new Decodificador();
         receptor = new Receptor(decodificador);
 
-    }
-
-    public Decodificador getDecodificador() {
-        return decodificador;
-    }
-
-    public Receptor getReceptor() {
-        return receptor;
-    }
-    
-    
-    public String getTraduccion() {
-        System.out.println(decodificador.getTraduccion());
-        return decodificador.getTraduccion();
     }
 
 }
