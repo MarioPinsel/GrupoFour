@@ -8,7 +8,6 @@ import java.net.Socket;
 public class Receptor extends Thread {
 
     private Decodificador decodificador;
-    private boolean variable;
 
     public Receptor(Decodificador decodificador) {
         this.decodificador = decodificador;
@@ -24,11 +23,12 @@ public class Receptor extends Thread {
                     while (true) {
                         int valor = inBuffer.readInt();
                         if (valor == -1) {
+                            System.out.println(decodificador.getTraduccion());
                             break;
                         }
                         decodificador.procesar(valor);
                     }
-                    
+
                 } catch (IOException e) {
                     System.err.println("Error al recibir datos: " + e.getMessage());
                 }
@@ -38,9 +38,4 @@ public class Receptor extends Thread {
         }
     }
 
-    public boolean isVariable() {
-        return variable;
-    }
-    
-    
 }
