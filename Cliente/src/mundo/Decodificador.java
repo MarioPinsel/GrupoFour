@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class Decodificador {
 
+    private static final String RESET = "\u001B[0m";
+    private static final String RED = "\u001B[31m";
+    private static final String BLUE = "\u001B[34m";
+
     private int paco = 0;
     private String traduccion = "";
     private ArrayList<String> diccionario = new ArrayList<>();
@@ -14,7 +18,6 @@ public class Decodificador {
         } else {
             decodificar(paco, primeraEntrada);
             paco = primeraEntrada;
-            
         }
     }
 
@@ -35,17 +38,16 @@ public class Decodificador {
         if (!diccionario.contains(ps)) {
             diccionario.add(ps);
         }
+       
 
         traduccion += pe;
-        System.out.println(traduccion);
     }
 
     public ArrayList<String> getDiccionario() {
         return diccionario;
     }
-    
-    public String getTraduccion(){
-        System.out.println(traduccion);
+
+    public String getTraduccion() {
         return traduccion;
     }
 }
