@@ -4,18 +4,10 @@
  */
 package mundo;
 
-import java.sql.SQLException;
-
 /**
  *
  * @author Esteban
  */
-public interface CRUD {
-
-    public Object select(String string) throws SQLException;
-
-    public int update(String string) throws SQLException;
-
+public class Parking {
     
-
 }
