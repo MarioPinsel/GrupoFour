@@ -120,61 +120,68 @@ public class PanelVehicle extends JPanel {
         txtEntry.setText(horaActual);
     }
 
-    public void setMode(String mode) {
-       
-        actualizarHoraEntry();
-
-        switch (mode) {
-            case "Create":
-                txtPlate.setEditable(true);
-                txtOwner.setEditable(true);
-                txtPhone.setEditable(true);
-                txtEntry.setEditable(false);
-                txtDeparture.setEditable(false);
-                txtPay.setEditable(false);
-                btnLiquidate.setEnabled(false);
-                btnSend.setEnabled(true);
-                break;
-            case "Read":
-                txtPlate.setEditable(true);
-                txtOwner.setEditable(false);
-                txtPhone.setEditable(false);
-                txtEntry.setEditable(false);
-                txtDeparture.setEditable(false);
-                txtPay.setEditable(false);
-                btnLiquidate.setEnabled(false);
-                btnSend.setEnabled(true);
-                break;
-            case "Update":
-                txtPlate.setEditable(true);
-                txtOwner.setEditable(true);
-                txtPhone.setEditable(true);
-                txtEntry.setEditable(false);
-                txtDeparture.setEditable(false);
-                txtPay.setEditable(false);
-                btnLiquidate.setEnabled(false);
-                btnSend.setEnabled(true);
-                break;
-            case "Delete":
-                txtPlate.setEditable(true);
-                txtOwner.setEditable(false);
-                txtPhone.setEditable(false);
-                txtEntry.setEditable(false);
-                txtDeparture.setEditable(false);
-                txtPay.setEditable(false);
-                btnLiquidate.setEnabled(false);
-                btnSend.setEnabled(true);
-                break;
-            default:
-                txtPlate.setEditable(false);
-                txtOwner.setEditable(false);
-                txtPhone.setEditable(false);
-                txtEntry.setEditable(false);
-                txtDeparture.setEditable(false);
-                txtPay.setEditable(false);
-                btnLiquidate.setEnabled(false);
-                btnSend.setEnabled(false);
-                break;
-        }
+   public void setMode(String mode) {
+  
+    if ("Create".equals(mode)) {
+        actualizarHoraEntry();         
+        txtEntry.setEnabled(true);     
+    } else {
+        txtEntry.setText("");          
+        txtEntry.setEnabled(false);    
     }
+
+   
+    switch (mode) {
+        case "Create":
+            txtPlate.setEditable(true);
+            txtOwner.setEditable(true);
+            txtPhone.setEditable(true);
+            txtEntry.setEditable(false);
+            txtDeparture.setEditable(false);
+            txtPay.setEditable(false);
+            btnLiquidate.setEnabled(false);
+            btnSend.setEnabled(true);
+            break;
+        case "Read":
+            txtPlate.setEditable(true);
+            txtOwner.setEditable(false);
+            txtPhone.setEditable(false);
+            txtEntry.setEditable(false);
+            txtDeparture.setEditable(false);
+            txtPay.setEditable(false);
+            btnLiquidate.setEnabled(false);
+            btnSend.setEnabled(true);
+            break;
+        case "Update":
+            txtPlate.setEditable(true);
+            txtOwner.setEditable(true);
+            txtPhone.setEditable(true);
+            txtEntry.setEditable(false);
+            txtDeparture.setEditable(false);
+            txtPay.setEditable(false);
+            btnLiquidate.setEnabled(false);
+            btnSend.setEnabled(true);
+            break;
+        case "Delete":
+            txtPlate.setEditable(true);
+            txtOwner.setEditable(false);
+            txtPhone.setEditable(false);
+            txtEntry.setEditable(false);
+            txtDeparture.setEditable(false);
+            txtPay.setEditable(false);
+            btnLiquidate.setEnabled(false);
+            btnSend.setEnabled(true);
+            break;
+        default:
+            txtPlate.setEditable(false);
+            txtOwner.setEditable(false);
+            txtPhone.setEditable(false);
+            txtEntry.setEditable(false);
+            txtDeparture.setEditable(false);
+            txtPay.setEditable(false);
+            btnLiquidate.setEnabled(false);
+            btnSend.setEnabled(false);
+            break;
+    }
+}
 }
