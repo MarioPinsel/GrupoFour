@@ -10,11 +10,10 @@ public class PanelCrud extends JPanel {
     private JRadioButton rbRead;
     private JRadioButton rbUpdate;
     private JRadioButton rbDelete;
-    private ButtonGroup grupoBotones;
-    private PanelVehicle panelVehicle;  
+    private PanelVehicle panelVehicle;
 
     public PanelCrud(PanelVehicle panelVehicle) {
-        this.panelVehicle = panelVehicle; 
+        this.panelVehicle = panelVehicle;
 
         setBorder(BorderFactory.createTitledBorder("CRUD"));
         setLayout(new FlowLayout());
@@ -24,17 +23,16 @@ public class PanelCrud extends JPanel {
         rbUpdate = new JRadioButton("Update");
         rbDelete = new JRadioButton("Delete");
 
-        grupoBotones = new ButtonGroup();
-        grupoBotones.add(rbCreate);
-        grupoBotones.add(rbRead);
-        grupoBotones.add(rbUpdate);
-        grupoBotones.add(rbDelete);
+        ButtonGroup group = new ButtonGroup();
+        group.add(rbCreate);
+        group.add(rbRead);
+        group.add(rbUpdate);
+        group.add(rbDelete);
 
         add(rbCreate);
         add(rbRead);
         add(rbUpdate);
-        add(rbDelete);  
-
+        add(rbDelete);
 
         ActionListener listener = new ActionListener() {
             @Override
@@ -51,7 +49,23 @@ public class PanelCrud extends JPanel {
         rbUpdate.addActionListener(listener);
         rbDelete.addActionListener(listener);
 
-       
+        
+        rbCreate.setSelected(true);
+        panelVehicle.setMode("Create");
+
+        
+        panelVehicle.getBtnSend().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String plate = panelVehicle.getPlate();
+                String owner = panelVehicle.getOwner();
+                String phone = panelVehicle.getPhone();
+                String entry = panelVehicle.getEntry();
+                String departure = panelVehicle.getDeparture();
+                String pay = panelVehicle.getPay();
+
+                            }
+        });
     }
 
     public String getOpcionSeleccionada() {
@@ -62,4 +76,3 @@ public class PanelCrud extends JPanel {
         return null;
     }
 }
-
