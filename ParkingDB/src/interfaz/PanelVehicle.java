@@ -2,6 +2,8 @@ package interfaz;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class PanelVehicle extends JPanel {
     private JTextField txtPlate;
@@ -12,6 +14,9 @@ public class PanelVehicle extends JPanel {
     private JTextField txtPay;
     private JButton btnLiquidate;
     private JButton btnSend;
+
+    
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     public PanelVehicle() {
         setBorder(BorderFactory.createTitledBorder("VEHICLE"));
@@ -40,47 +45,85 @@ public class PanelVehicle extends JPanel {
         add(txtPhone, gbc);
         gbc.gridwidth = 1;
 
-        gbc.gridx = 0; gbc.gridy = 3;
-        btnLiquidate = new JButton("Liquidate");
-        add(btnLiquidate, gbc);
-
-        
-      gbc.gridx = 1; gbc.gridy = 2;
+        gbc.gridx = 1; gbc.gridy = 2;
         add(new JLabel("Entry:"), gbc);
-     
-        gbc.gridx = 1;
-        gbc.gridy=3;
-        txtEntry = new JTextField(5);
-        txtEntry.setEditable(true);
+        gbc.gridx = 1; gbc.gridy = 3;
+        txtEntry = new JTextField(8);
+        txtEntry.setEditable(false);
         add(txtEntry, gbc);
-        
-  gbc.gridx = 2; gbc.gridy = 2;
+
+        gbc.gridx = 2; gbc.gridy = 2;
         add(new JLabel("Departure:"), gbc);
-        
-        gbc.gridx = 2;
-        gbc.gridy=3;
+        gbc.gridx = 2; gbc.gridy = 3;
         txtDeparture = new JTextField(5);
         txtDeparture.setEditable(true);
         add(txtDeparture, gbc);
 
         gbc.gridx = 3; gbc.gridy = 2;
         add(new JLabel("Pay:"), gbc);
-        
-        gbc.gridx = 3;
-        gbc.gridy=3;
+        gbc.gridx = 3; gbc.gridy = 3;
         txtPay = new JTextField(5);
         txtPay.setEditable(true);
         add(txtPay, gbc);
 
+        gbc.gridx = 0; gbc.gridy = 3;
+        btnLiquidate = new JButton("Liquidate");
+        add(btnLiquidate, gbc);
+
         gbc.gridx = 3; gbc.gridy = 4;
         btnSend = new JButton("Send");
         add(btnSend, gbc);
+
+       
+        actualizarHoraEntry();
+    }
+
+    public String getPlate() {
+        return txtPlate.getText().trim();
+    }
+
+    public String getOwner() {
+        return txtOwner.getText().trim();
+    }
+
+    public String getPhone() {
+        return txtPhone.getText().trim();
+    }
+
+    public String getEntry() {
+        return txtEntry.getText().trim();
+    }
+
+    public String getDeparture() {
+        return txtDeparture.getText().trim();
+    }
+
+    public String getPay() {
+        return txtPay.getText().trim();
+    }
+
+    public JButton getBtnSend() {
+        return btnSend;
+    }
+
+    public JButton getBtnLiquidate() {
+        return btnLiquidate;
     }
 
     public void setPlate(String plate) {
         txtPlate.setText(plate);
     }
+
+   
+    private void actualizarHoraEntry() {
+        String horaActual = LocalTime.now().format(timeFormatter);
+        txtEntry.setText(horaActual);
+    }
+
     public void setMode(String mode) {
+       
+        actualizarHoraEntry();
+
         switch (mode) {
             case "Create":
                 txtPlate.setEditable(true);
@@ -89,7 +132,6 @@ public class PanelVehicle extends JPanel {
                 txtEntry.setEditable(false);
                 txtDeparture.setEditable(false);
                 txtPay.setEditable(false);
-
                 btnLiquidate.setEnabled(false);
                 btnSend.setEnabled(true);
                 break;
@@ -100,18 +142,16 @@ public class PanelVehicle extends JPanel {
                 txtEntry.setEditable(false);
                 txtDeparture.setEditable(false);
                 txtPay.setEditable(false);
-
                 btnLiquidate.setEnabled(false);
-                btnSend.setEnabled(false);
+                btnSend.setEnabled(true);
                 break;
             case "Update":
                 txtPlate.setEditable(true);
                 txtOwner.setEditable(true);
                 txtPhone.setEditable(true);
-                txtEntry.setEditable(true);
-                txtDeparture.setEditable(true);
-                txtPay.setEditable(true);
-
+                txtEntry.setEditable(false);
+                txtDeparture.setEditable(false);
+                txtPay.setEditable(false);
                 btnLiquidate.setEnabled(false);
                 btnSend.setEnabled(true);
                 break;
@@ -122,7 +162,6 @@ public class PanelVehicle extends JPanel {
                 txtEntry.setEditable(false);
                 txtDeparture.setEditable(false);
                 txtPay.setEditable(false);
-
                 btnLiquidate.setEnabled(false);
                 btnSend.setEnabled(true);
                 break;
@@ -133,7 +172,6 @@ public class PanelVehicle extends JPanel {
                 txtEntry.setEditable(false);
                 txtDeparture.setEditable(false);
                 txtPay.setEditable(false);
-
                 btnLiquidate.setEnabled(false);
                 btnSend.setEnabled(false);
                 break;

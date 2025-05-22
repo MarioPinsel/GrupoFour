@@ -25,6 +25,7 @@ public class InterfazApp extends JFrame {
         add(panelConsole, BorderLayout.SOUTH);
 
         setVisible(true);
+        setResizable(false);
     }
 
     public static void main(String[] args) {
