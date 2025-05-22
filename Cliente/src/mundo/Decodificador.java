@@ -27,8 +27,12 @@ public class Decodificador {
     public String obtenerEntrada(int codigo) {
         if (codigo <= 255) {
             return String.valueOf((char) codigo);
-        } else {
+        } else if (codigo - 256 < diccionario.size()) {
             return diccionario.get(codigo - 256);
+        } else {
+            // Caso especial LZW: código aún no en diccionario
+            String entradaAnterior = obtenerEntrada(paco); // usa PE
+            return entradaAnterior + entradaAnterior.charAt(0);
         }
     }
 
