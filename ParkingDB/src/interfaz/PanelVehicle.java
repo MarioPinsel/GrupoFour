@@ -80,4 +80,63 @@ public class PanelVehicle extends JPanel {
     public void setPlate(String plate) {
         txtPlate.setText(plate);
     }
+    public void setMode(String mode) {
+        switch (mode) {
+            case "Create":
+                txtPlate.setEditable(true);
+                txtOwner.setEditable(true);
+                txtPhone.setEditable(true);
+                txtEntry.setEditable(false);
+                txtDeparture.setEditable(false);
+                txtPay.setEditable(false);
+
+                btnLiquidate.setEnabled(false);
+                btnSend.setEnabled(true);
+                break;
+            case "Read":
+                txtPlate.setEditable(true);
+                txtOwner.setEditable(false);
+                txtPhone.setEditable(false);
+                txtEntry.setEditable(false);
+                txtDeparture.setEditable(false);
+                txtPay.setEditable(false);
+
+                btnLiquidate.setEnabled(false);
+                btnSend.setEnabled(false);
+                break;
+            case "Update":
+                txtPlate.setEditable(true);
+                txtOwner.setEditable(true);
+                txtPhone.setEditable(true);
+                txtEntry.setEditable(true);
+                txtDeparture.setEditable(true);
+                txtPay.setEditable(true);
+
+                btnLiquidate.setEnabled(false);
+                btnSend.setEnabled(true);
+                break;
+            case "Delete":
+                txtPlate.setEditable(true);
+                txtOwner.setEditable(false);
+                txtPhone.setEditable(false);
+                txtEntry.setEditable(false);
+                txtDeparture.setEditable(false);
+                txtPay.setEditable(false);
+
+                btnLiquidate.setEnabled(false);
+                btnSend.setEnabled(true);
+                break;
+            default:
+                txtPlate.setEditable(false);
+                txtOwner.setEditable(false);
+                txtPhone.setEditable(false);
+                txtEntry.setEditable(false);
+                txtDeparture.setEditable(false);
+                txtPay.setEditable(false);
+
+                btnLiquidate.setEnabled(false);
+                btnSend.setEnabled(false);
+                break;
+        }
+    }
 }

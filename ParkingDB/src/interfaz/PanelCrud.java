@@ -14,7 +14,7 @@ public class PanelCrud extends JPanel {
     private PanelVehicle panelVehicle;  
 
     public PanelCrud(PanelVehicle panelVehicle) {
-        this.panelVehicle = panelVehicle;  // Pasar referencia de PanelVehicle
+        this.panelVehicle = panelVehicle; 
 
         setBorder(BorderFactory.createTitledBorder("CRUD"));
         setLayout(new FlowLayout());
@@ -33,38 +33,25 @@ public class PanelCrud extends JPanel {
         add(rbCreate);
         add(rbRead);
         add(rbUpdate);
-        add(rbDelete);
+        add(rbDelete);  
 
-        // Agregar listeners para enviar la opción seleccionada
-        rbCreate.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendDataToPanelVehicle("Create");
-            }
-        });
-        rbRead.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendDataToPanelVehicle("Read");
-            }
-        });
-        rbUpdate.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendDataToPanelVehicle("Update");
-            }
-        });
-        rbDelete.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendDataToPanelVehicle("Delete");
-            }
-        });
-    }
 
-    private void sendDataToPanelVehicle(String selectedOption) {
-        // Llamar al método de PanelVehicle para actualizar el valor de la placa
-        panelVehicle.setPlate(selectedOption);
+        ActionListener listener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String opcion = getOpcionSeleccionada();
+                if (opcion != null) {
+                    panelVehicle.setMode(opcion);
+                }
+            }
+        };
+
+        rbCreate.addActionListener(listener);
+        rbRead.addActionListener(listener);
+        rbUpdate.addActionListener(listener);
+        rbDelete.addActionListener(listener);
+
+       
     }
 
     public String getOpcionSeleccionada() {
@@ -75,3 +62,4 @@ public class PanelCrud extends JPanel {
         return null;
     }
 }
+
