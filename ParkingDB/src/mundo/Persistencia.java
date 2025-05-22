@@ -17,21 +17,21 @@ public class Persistencia implements CRUD {
      private ResultSet rst;
      private Statement statement;
 	    	       
-     private static final String driver   = "com.mysql.jdbc.Driver";
+     private static final String driver = "com.mysql.jdbc.Driver";
      private static final String user     = "root";
      private static final String password = "";     
      private static final String url      = "jdbc:mysql://localhost:3306/Parking";
 
     public Persistencia() {
+        connect();
     }
      
      
      public Connection connect()
-     { 
-     
+     {          
        try
        { Class.forName("com.mysql.jdbc.Driver");
-         this.connection = DriverManager.getConnection(this.url, this.user, this.password);   
+         this.connection = DriverManager.getConnection(url, user,password);   
        }
        catch (Exception e)
        { System.out.println("Mysql() :: " + e.getMessage());           

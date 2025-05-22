@@ -21,7 +21,7 @@ public class Parking {
     
      
     public void insert() throws SQLException
-    { pers.update("INSERT INTO vehiculo ( Placa, Marca, Modelo, Tipo_de_Vehiculo_idTipo ) VALUES (  'ABC123'  , 'audi' , 'r8', 'carro')" );
+    { pers.update("INSERT INTO vehiculo ( Placa, Marca, Modelo, Tipo_de_Vehiculo_idTipo ) VALUES (  'JHG'  , 'audi' , 'r8', " + 1 + ")" );
 //      pers.update("INSERT INTO TipoProducto ( ID_CodTipo, nombreTipo ) VALUES ( " + null + ", 'Impresoras')" );
 //      pers.update("INSERT INTO TipoProducto ( ID_CodTipo, nombreTipo ) VALUES ( " + null + ", 'PC')" );
 //      pers.update("INSERT INTO TipoProducto ( ID_CodTipo, nombreTipo ) VALUES ( " + null + ", 'Celulares')" );
@@ -37,7 +37,7 @@ public class Parking {
      CR(Update)D
     */
     public void update() throws SQLException
-    { pers.update("UPDATE TipoProducto SET nombreTipo = " + "'GoPro'" + " WHERE ID_CodTipo = " + 7 );
+    { pers.update("UPDATE vehiculo SET Modelo = " + "'Caratumba'" + " WHERE Placa = " + "'JHG'" );
     }        
 
     /* 
@@ -45,7 +45,7 @@ public class Parking {
      CRU(Delete)
     */
     public void delete() throws SQLException
-    { pers.update("DELETE FROM TipoProducto WHERE ID_CodTipo = " + 8);
+    { pers.update("DELETE FROM vehiculo WHERE Placa = " + "'ABC123'");
     }        
     
     
