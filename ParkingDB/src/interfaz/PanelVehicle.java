@@ -1,0 +1,142 @@
+package interfaz;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class PanelVehicle extends JPanel {
+    private JTextField txtPlate;
+    private JTextField txtOwner;
+    private JTextField txtPhone;
+    private JTextField txtEntry;
+    private JTextField txtDeparture;
+    private JTextField txtPay;
+    private JButton btnLiquidate;
+    private JButton btnSend;
+
+    public PanelVehicle() {
+        setBorder(BorderFactory.createTitledBorder("VEHICLE"));
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        gbc.gridx = 0; gbc.gridy = 0;
+        add(new JLabel("Plate:"), gbc);
+        gbc.gridx = 1;
+        txtPlate = new JTextField(10);
+        add(txtPlate, gbc);
+
+        gbc.gridx = 2;
+        add(new JLabel("Owner/visitor:"), gbc);
+        gbc.gridx = 3;
+        txtOwner = new JTextField(20);
+        add(txtOwner, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 1;
+        add(new JLabel("Phone number:"), gbc);
+        gbc.gridx = 1;
+        txtPhone = new JTextField(10);
+        gbc.gridwidth = 3;
+        add(txtPhone, gbc);
+        gbc.gridwidth = 1;
+
+        gbc.gridx = 0; gbc.gridy = 3;
+        btnLiquidate = new JButton("Liquidate");
+        add(btnLiquidate, gbc);
+
+        
+      gbc.gridx = 1; gbc.gridy = 2;
+        add(new JLabel("Entry:"), gbc);
+     
+        gbc.gridx = 1;
+        gbc.gridy=3;
+        txtEntry = new JTextField(5);
+        txtEntry.setEditable(true);
+        add(txtEntry, gbc);
+        
+  gbc.gridx = 2; gbc.gridy = 2;
+        add(new JLabel("Departure:"), gbc);
+        
+        gbc.gridx = 2;
+        gbc.gridy=3;
+        txtDeparture = new JTextField(5);
+        txtDeparture.setEditable(true);
+        add(txtDeparture, gbc);
+
+        gbc.gridx = 3; gbc.gridy = 2;
+        add(new JLabel("Pay:"), gbc);
+        
+        gbc.gridx = 3;
+        gbc.gridy=3;
+        txtPay = new JTextField(5);
+        txtPay.setEditable(true);
+        add(txtPay, gbc);
+
+        gbc.gridx = 3; gbc.gridy = 4;
+        btnSend = new JButton("Send");
+        add(btnSend, gbc);
+    }
+
+    public void setPlate(String plate) {
+        txtPlate.setText(plate);
+    }
+    public void setMode(String mode) {
+        switch (mode) {
+            case "Create":
+                txtPlate.setEditable(true);
+                txtOwner.setEditable(true);
+                txtPhone.setEditable(true);
+                txtEntry.setEditable(false);
+                txtDeparture.setEditable(false);
+                txtPay.setEditable(false);
+
+                btnLiquidate.setEnabled(false);
+                btnSend.setEnabled(true);
+                break;
+            case "Read":
+                txtPlate.setEditable(true);
+                txtOwner.setEditable(false);
+                txtPhone.setEditable(false);
+                txtEntry.setEditable(false);
+                txtDeparture.setEditable(false);
+                txtPay.setEditable(false);
+
+                btnLiquidate.setEnabled(false);
+                btnSend.setEnabled(false);
+                break;
+            case "Update":
+                txtPlate.setEditable(true);
+                txtOwner.setEditable(true);
+                txtPhone.setEditable(true);
+                txtEntry.setEditable(true);
+                txtDeparture.setEditable(true);
+                txtPay.setEditable(true);
+
+                btnLiquidate.setEnabled(false);
+                btnSend.setEnabled(true);
+                break;
+            case "Delete":
+                txtPlate.setEditable(true);
+                txtOwner.setEditable(false);
+                txtPhone.setEditable(false);
+                txtEntry.setEditable(false);
+                txtDeparture.setEditable(false);
+                txtPay.setEditable(false);
+
+                btnLiquidate.setEnabled(false);
+                btnSend.setEnabled(true);
+                break;
+            default:
+                txtPlate.setEditable(false);
+                txtOwner.setEditable(false);
+                txtPhone.setEditable(false);
+                txtEntry.setEditable(false);
+                txtDeparture.setEditable(false);
+                txtPay.setEditable(false);
+
+                btnLiquidate.setEnabled(false);
+                btnSend.setEnabled(false);
+                break;
+        }
+    }
+}
