@@ -33,8 +33,8 @@ public class InterfazApp extends JFrame {
     public static void main(String[] args) throws SQLException {
         new InterfazApp();
         Parking pers = new Parking();
-        pers.insert();
-        pers.update();
-        pers.delete();
+        //pers.insert();
+        pers.select(1, "BAT000");
+
     }
 }
