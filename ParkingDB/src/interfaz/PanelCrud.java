@@ -49,23 +49,8 @@ public class PanelCrud extends JPanel {
         rbUpdate.addActionListener(listener);
         rbDelete.addActionListener(listener);
 
-        
         rbCreate.setSelected(true);
         panelVehicle.setMode("Create");
-
-        
-        panelVehicle.getBtnSend().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String plate = panelVehicle.getPlate();
-                String owner = panelVehicle.getOwner();
-                String phone = panelVehicle.getPhone();
-                String entry = panelVehicle.getEntry();
-                String departure = panelVehicle.getDeparture();
-                String pay = panelVehicle.getPay();
-
-                            }
-        });
     }
 
     public String getOpcionSeleccionada() {
@@ -76,3 +61,5 @@ public class PanelCrud extends JPanel {
         return null;
     }
 }
+
+
