@@ -1,63 +1,68 @@
 package controlador;
 
 import interfaz.*;
+import mundo.*;
 
 public class Controlador {
 
+    private Parking parking;
     private PanelCrud panelCrud;
     private PanelVehicle panelVehicle;
     private PanelConsole panelConsole;
 
-    public Controlador() {
-        // Constructor vacío por ahora
+    public Controlador(Parking parking) {
+        this.parking = parking;
     }
 
-    // Método para inyectar los paneles desde la interfaz
     public void setPanels(PanelCrud pc, PanelVehicle pv, PanelConsole pco) {
         this.panelCrud = pc;
         this.panelVehicle = pv;
         this.panelConsole = pco;
     }
 
-    // CREATE
     public void create(String placa, String modelo) {
-        // Simulación: si la placa empieza con A, está "creado"
-        if (placa.startsWith("A")) {
+        Vehicle v = new Vehicle(placa, modelo);
+        boolean ok = parking.create(v);
+        if (ok) {
             panelConsole.log("Vehículo creado correctamente: " + placa);
-            // panelVehicle.addVehicle(...) se puede simular luego
+            panelVehicle.addVehicle(v);
         } else {
             panelConsole.log("Error: el vehículo ya existe: " + placa);
         }
     }
 
-    // READ
     public void read(String placa) {
-        // Simulación: si la placa termina en 1, no existe
-        if (placa.endsWith("1")) {
+        Vehicle v = parking.read(placa);
+        if (v == null) {
             panelConsole.log("Vehículo no existe con placa: " + placa);
-        } else {
-            // Simulación: todos los que no terminan en 1 están parqueados
+        } else if (v.parqueado) { // ← acceso directo al atributo
             panelConsole.log("Vehículo ya está parqueado: " + placa);
         }
     }
 
-    // UPDATE
-    public void update(String placa, String nuevoModelo) {
-        // Simulación: si la placa contiene "Z", no existe
-        if (placa.contains("Z")) {
-            panelConsole.log("No existe vehículo con placa: " + placa);
+    public void update(String placa, String newModelo) {
+        Vehicle v = parking.read(placa);
+        if (v != null) {
+            v.modelo = newModelo; // o v.setModelo(newModelo) si hay encapsulamiento
+            boolean ok = parking.update(v);
+            if (ok) {
+                panelConsole.log("Vehículo actualizado: " + placa);
+                panelVehicle.updateVehicle(v);
+            } else {
+                panelConsole.log("No se pudo actualizar: " + placa);
+            }
         } else {
-            panelConsole.log("Vehículo actualizado: " + placa);
+            panelConsole.log("No existe vehículo con placa: " + placa);
         }
     }
 
-    // DELETE
     public void delete(String placa) {
-        // Simulación: si la placa es "000", no existe
-        if (placa.equals("000")) {
-            panelConsole.log("No existe vehículo con placa: " + placa);
-        } else {
+        boolean ok = parking.delete(placa);
+        if (ok) {
             panelConsole.log("Vehículo eliminado: " + placa);
+            panelVehicle.removeVehicle(placa);
+        } else {
+            panelConsole.log("No existe vehículo con placa: " + placa);
         }
     }
 }
