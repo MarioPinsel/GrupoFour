@@ -20,7 +20,7 @@ public class Persistencia implements CRUD {
      private static final String driver = "com.mysql.jdbc.Driver";
      private static final String user     = "root";
      private static final String password = "";     
-     private static final String url      = "jdbc:mysql://localhost:3306/Parking";
+     private static final String url      = "jdbc:mysql://localhost:3306/UnoAMuchos";
 
     public Persistencia() {
         connect();
