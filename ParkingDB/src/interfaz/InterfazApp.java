@@ -39,8 +39,15 @@ public class InterfazApp extends JFrame {
     }
 
     public static void main(String[] args) throws SQLException {
+EST-wawa
+        new InterfazApp();
+        Parking pers = new Parking();
+        //pers.insert();
+        pers.read("BAT000");
+
         new InterfazApp();       
        
+main
 
     }
 }

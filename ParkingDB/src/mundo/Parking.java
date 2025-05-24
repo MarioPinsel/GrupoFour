@@ -21,6 +21,44 @@ public class Parking {
         pers = new Persistencia();
     }
 
+ EST-wawa
+    public ArrayList<String> read(String placa) {
+        ArrayList<String> info = select(2, placa);
+        ArrayList<String> existencia = new ArrayList<>();
+
+        if (info.contains("SIN_DATOS") || info.contains("2")) { //NO EXISTE
+            existencia.add("El vehiculo no exixte");
+        }
+        if (info.contains("0")) { // EXISTE INACTIVO
+            info = select(1, placa);
+            existencia.add(info.get(1)); //H ingreso
+            existencia.add(info.get(2)); //H Salida
+            existencia.add(info.get(6)); //Pago
+            existencia.add(info.get(4)); //Cedula
+
+            info = select(3, existencia.get(3));
+            existencia.add(info.get(1)); //Nombre
+            existencia.add(info.get(2)); //Numero            
+            existencia.add("Vehiculo no parqueado\n"
+                    + "Mostrando ultimo registro de entrada");
+        }
+
+        if (info.contains("1")) { //EXISTE ACTIVO
+            info = select(1, placa);
+            existencia.add(info.get(4)); //Cedula
+
+            info = select(3, existencia.get(0));
+            existencia.add(info.get(1)); //Nombre
+            existencia.add(info.get(2)); //Numero            
+            existencia.add("El vehiculo esta parqueado\n"
+                    + "Mostrando datos ...");
+        }
+
+        for (String a : existencia) {
+            System.out.println(a);
+        }
+        return existencia;
+
     public String create(String placa, String numero, String nombre, String cedula) {
         String rta = "";
         ArrayList<String> vehiculoData = select(2, placa);
@@ -131,6 +169,7 @@ public class Parking {
             default:
                 System.out.println("Caso no válido.");
         }
+
     }
 
     /*
@@ -144,10 +183,7 @@ public class Parking {
     /* 
     "DELETE FROM <Nombre de la tabla> WHERE <llave> = " + valor); 
      CRU(Delete)
-     */
-    public void delete() throws SQLException {
-        pers.update("DELETE FROM vehiculo WHERE Placa = " + "'ABC123'");
-    }
+     */    
 
     public ArrayList<String> select(int opcion, String filtro) {
         ArrayList<String> datos = new ArrayList<>();
@@ -164,7 +200,9 @@ public class Parking {
                 } while (rst.next());
             } else {
                 datos.add("SIN_DATOS");
-            }            
+            }
+        }
+              
         } catch (SQLException ex) {
             Logger.getLogger(Parking.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -199,5 +237,49 @@ public class Parking {
             default:
                 System.out.println("CAGO");
         }
+    }
+    
+
+    private ArrayList<String> getLiquidation(String placa) {
+        ArrayList<String> info;
+
+        LocalDateTime ahora = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String horaSalida = ahora.format(formatter);
+
+        info = select(1, placa);
+        String horaIngreso = info.get(1);
+
+        int ingresoSeg = conversion(horaIngreso);
+        int salidaSeg = conversion(horaSalida);
+
+        double pago = (salidaSeg - ingresoSeg) / 60 * 90;
+
+        info.clear();
+        info.add(String.valueOf(horaIngreso));
+        info.add(String.valueOf(horaSalida));
+        info.add(String.valueOf(pago));
+
+        try {
+            pers.update("UPDATE registro SET Hora_Salida = '" + horaSalida + "' WHERE Placa = " + placa);
+            pers.update("UPDATE registro SET Pago = '" + pago + "' WHERE Placa = " + placa);
+            pers.update("UPDATE veiculo SET Estado = '" + 0 + "' WHERE Placa = " + placa);
+        } catch (SQLException ex) {
+            Logger.getLogger("ERROR: No se pudo ingresar los datos de entrada o salida");
+        }        
+        return info;
+
+    }
+
+    private int conversion(String timestamp) {
+
+        String horaCompleta = timestamp.split(" ")[1];
+        String[] partes = horaCompleta.split(":");
+
+        int horas = Integer.parseInt(partes[0]);
+        int minutos = Integer.parseInt(partes[1]);
+        int segundos = Integer.parseInt(partes[2].split("\\.")[0]);
+
+        return horas * 3600 + minutos * 60 + segundos;
     }
 }
