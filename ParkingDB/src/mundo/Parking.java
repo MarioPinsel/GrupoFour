@@ -22,27 +22,14 @@ public class Parking {
         pers = new Persistencia();
     }
 
-//    public boolean create(String placa, String numero, String nombre, String cedula) {
-//        try {
-//            ArrayList<String> info = select.
-//            if () {
-//                return true; // true, el vehiculo si existe
-//            }
-//            insert(); // info para insert
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Parking.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return false;
-//    }
-//
     public ArrayList<String> read(String placa) {
         ArrayList<String> info = select(2, placa);
         ArrayList<String> existencia = new ArrayList<>();
-        if (info.contains("SIN_DATOS")) {
+
+        if (info.contains("SIN_DATOS") || info.contains("2")) { //NO EXISTE
             existencia.add("El vehiculo no exixte");
         }
-        if (info.contains("0")) {
+        if (info.contains("0")) { // EXISTE INACTIVO
             info = select(1, placa);
             existencia.add(info.get(1)); //H ingreso
             existencia.add(info.get(2)); //H Salida
@@ -56,7 +43,7 @@ public class Parking {
                     + "Mostrando ultimo registro de entrada");
         }
 
-        if (info.contains("1")) {
+        if (info.contains("1")) { //EXISTE ACTIVO
             info = select(1, placa);
             existencia.add(info.get(4)); //Cedula
 
@@ -65,28 +52,12 @@ public class Parking {
             existencia.add(info.get(2)); //Numero            
             existencia.add("El vehiculo esta parqueado\n"
                     + "Mostrando datos ...");
-
-//            
-//            LocalDateTime ahora = LocalDateTime.now();
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//            String fechaHoraIngreso = ahora.format(formatter);
-//            try {
-//                pers.update("UPDATE vehiculo SET Estado = 1 WHERE Placa = '" + placa + "'");
-//            } catch (SQLException ex) {
-//                System.out.println("WAWAWWAWAWWAWAW");
-//            }
         }
 
         for (String a : existencia) {
             System.out.println(a);
         }
         return existencia;
-    }
-
-    public void insert() throws SQLException {
-        pers.update("INSERT INTO registro ( idRegistro, Hora_Ingreso, Hora_Salida, Vehiculo_Placa, Visitante_Cédula, Tarifa_Anio, Pago ) VALUES ( " + null + ", '11:50' , " + null + ", BAT000, 515151, 2025, " + null + ")");
-        /*pers.update("INSERT INTO TipoProducto ( ID_CodTipo, nombreTipo ) VALUES ( " + null + ", 'Impresoras')");*/
-
     }
 
     /*
@@ -100,10 +71,7 @@ public class Parking {
     /* 
     "DELETE FROM <Nombre de la tabla> WHERE <llave> = " + valor); 
      CRU(Delete)
-     */
-    public void delete() throws SQLException {
-        pers.update("DELETE FROM vehiculo WHERE Placa = " + "'ABC123'");
-    }
+     */    
 
     public ArrayList<String> select(int opcion, String filtro) {
         ArrayList<String> datos = new ArrayList<>();
@@ -157,17 +125,48 @@ public class Parking {
         }
     }
 
-    public ArrayList<String> getLiquidation() {
-        ArrayList<String> info = null;
+    public ArrayList<String> getLiquidation(String placa) {
+        ArrayList<String> info;
+
         LocalDateTime ahora = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String fechaHoraIngreso = ahora.format(formatter);
-        
+        String fechaHoraSalida = ahora.format(formatter);
+
+        info = select(1, placa);
+        String fechaHoraIngreso = info.get(1);
+
+        int ingresoSeg = conversion(fechaHoraIngreso);
+        int salidaSeg = conversion(fechaHoraSalida);
+
+        double liquidacion = (salidaSeg - ingresoSeg) / 60 * 90;
+
+        info.clear();
+        info.add(String.valueOf(ingresoSeg));
+        info.add(String.valueOf(salidaSeg));
+        info.add(String.valueOf(liquidacion));
+
         try {
-            pers.update("UPDATE registro SET Hora_Salida = '" + fechaHoraIngreso + "' WHERE ID_CodTipo = " + 7);
+            pers.update("UPDATE registro SET Hora_Salida = '" + fechaHoraSalida + "' WHERE Placa = " + placa);
+            pers.update("UPDATE registro SET Pago = '" + liquidacion + "' WHERE Placa = " + placa);
         } catch (SQLException ex) {
-            Logger.getLogger(Parking.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger("ERROR: No se pudo ingresar los datos de entrada o salida");
+        }
+        for (String wa : info) {
+            System.out.println(wa);
         }
         return info;
+
+    }
+
+    private int conversion(String timestamp) {
+
+        String horaCompleta = timestamp.split(" ")[1];
+        String[] partes = horaCompleta.split(":");
+
+        int horas = Integer.parseInt(partes[0]);
+        int minutos = Integer.parseInt(partes[1]);
+        int segundos = Integer.parseInt(partes[2].split("\\.")[0]);
+
+        return horas * 3600 + minutos * 60 + segundos;
     }
 }
