@@ -100,6 +100,7 @@ public class PanelVehicle extends JPanel {
             }
             fechaHoraActual = LocalDateTime.now().format(dateTimeFormatter);
             txtEntry.setText(LocalTime.now().format(timeFormatter));
+            ctrl.create(placa, getOwner(), getPhone(), getCedula());
         });
     }
 

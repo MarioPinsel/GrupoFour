@@ -24,7 +24,10 @@ public class Controlador {
 
     public void create(String placa, String numero, String nombre, String cedula) {
         ArrayList<String> info = new ArrayList<>();
-        info.add(placa, numero, nombre, cedula);
+        info.add(placa);
+        info.add(numero);
+        info.add(nombre);
+        info.add(cedula);
         parking.create(placa, numero, nombre, cedula);
 
     }
