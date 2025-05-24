@@ -1,67 +1,92 @@
 package mundoServidor;
 
-import java.util.ArrayList;
 
-/**
- *
- * @author Esteban
- */
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Servidor {
 
-    private ArrayList<String> lista; //Lista de txt
-    private ArrayList<Integer> salida; // lista de numeros
-    private ArrayList<String> diccionario;
+    private ArrayList<RedMensajes> listaIps;
+    private Codificador cod;
+    private Queue<Integer> salida;
 
-    public Servidor(ArrayList<String> lista) {
-        this.lista = lista;
-        salida = new ArrayList<>();
-        diccionario = new ArrayList<>();
-        codificacion();
+    public Servidor(ArrayList<String> ips) {
+        cod = new Codificador();
+        listaIps = new ArrayList<>();
+        salida = new LinkedList<>();
+
+        for (String ip : ips) {
+            RedMensajes red = new RedMensajes(ip);
+            listaIps.add(red);
+
+            new Thread(() -> {
+                try {
+                    // Esto envía un mensaje inicial (puedes cambiar el 0 si quieres que espere)
+                    enviar(red, 0);
+                } catch (IOException ex) {
+                    System.err.println("ERROR: El socket petó para IP: " + red.getIP());
+                    ex.printStackTrace();
+                }
+            }).start();
+        }
     }
 
-    public void codificacion() {
-        String PE = "";
-        String PS = "";
-        String SE = "";
-        boolean first = false;
+    private void enviar(RedMensajes red, int info) throws IOException {
+        // Enviar un solo dato (puedes ponerlo en bucle si lo deseas)
+        socket(red, info);
+    }
 
-        for (String enunciado : lista) {
-            if (!first) {
-                PE = enunciado.charAt(0) + "";
-                SE = enunciado.charAt(1) + "";
-                first = true;
-            }
-            for (int i = 0; i <= enunciado.length() - 1; i++) {
-                PS = PE + SE;
-                if (!buscarDiccionario(PS)) {
-                    diccionario.add(PS);
-                    if (PE.length() == 1) {
-                        salida.add((int) PE.charAt(0));
-                    } else {
-                        salida.add(diccionario.indexOf(PE) + 126 + 1);
-                    }
-                    PE = SE;
-                    if (i < enunciado.length() - 2) {
-                        SE = enunciado.charAt(i + 2) + "";
-                    }
+    private void socket(RedMensajes red, int data) {
+        try {
+            DataOutputStream outBuffer = new DataOutputStream(red.getSocket().getOutputStream());
+            outBuffer.writeInt(data);
+        } catch (IOException e) {
+            System.err.println("SOCKET: fallo al enviar en IP " + red.getIP());
+            e.printStackTrace();
+        }
+    }
 
-                } else {
-                    PE = PS;
-                    if (i < enunciado.length() - 2) {
-                        SE = enunciado.charAt(i + 2) + "";
-                    }
+    public void añadirData() {
+        ArrayList<Integer> datos = cod.getSalida();
+        for (RedMensajes mensaje : listaIps) {
+            for (int data : datos) {
+                try {
+                    enviar(mensaje, data);
+                } catch (IOException ex) {
+                    System.err.println("ERROR: No se están enviando los datos correctamente a " + mensaje.getIP());
+                    ex.printStackTrace();
                 }
             }
         }
-        for (int num : salida) {
-            System.out.println(num);
-        }
-        for (String wa : diccionario) {
-            System.out.println(wa);
-        }
     }
 
-    private boolean buscarDiccionario(String entrada) {
-        return diccionario.contains(entrada);
+    private class RedMensajes {
+
+        private String IP;
+        private Socket socket;
+
+        public RedMensajes(String ip) {
+            this.IP = ip;
+            try {
+                this.socket = new Socket(ip, 5050);
+            } catch (IOException ex) {
+                System.err.println("ERROR: Creación de socket fallida para IP: " + ip);
+                ex.printStackTrace();
+            }
+        }
+
+        public String getIP() {
+            return IP;
+        }
+
+        public Socket getSocket() {
+            return socket;
+        }
     }
 }

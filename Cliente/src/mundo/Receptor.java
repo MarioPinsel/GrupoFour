@@ -16,13 +16,20 @@ public class Receptor extends Thread {
 
     @Override
     public void run() {
-        try (ServerSocket serverSocket = new ServerSocket(5000)) {
+        try (ServerSocket serverSocket = new ServerSocket(5050)) {
             while (true) {
                 try (
                         Socket socket = serverSocket.accept();
                         DataInputStream inBuffer = new DataInputStream(socket.getInputStream())) {
-                    int valor = inBuffer.readInt();
-                    decodificador.procesar(valor);
+                    while (true) {
+                        int valor = inBuffer.readInt();
+                        if (valor == -1) {
+                            decodificador.imprimir();
+                            break;
+                        } else {
+                            decodificador.procesar(valor);
+                        }
+                    }
 
                 } catch (IOException e) {
                     System.err.println("Error al recibir datos: " + e.getMessage());
@@ -32,4 +39,5 @@ public class Receptor extends Thread {
             System.err.println("Error al iniciar el servidor: " + e.getMessage());
         }
     }
+
 }

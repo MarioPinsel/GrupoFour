@@ -1,16 +1,16 @@
 package controlador;
 
-import mundo.Decodificador;
+import mundo.*;
 
 public class Controlador {
+
     private Decodificador decodificador;
+    private Receptor receptor;
 
     public Controlador() {
         decodificador = new Decodificador();
-    }
+        receptor = new Receptor(decodificador);
 
-    public Decodificador getDecodificador() {
-        return decodificador;
     }
 
 }
