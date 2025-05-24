@@ -29,7 +29,6 @@ public class PanelVehicle extends JPanel {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        
         gbc.gridx = 0; gbc.gridy = 0;
         add(new JLabel("Plate:"), gbc);
         gbc.gridx = 1;
@@ -42,7 +41,6 @@ public class PanelVehicle extends JPanel {
         txtOwner = new JTextField(20);
         add(txtOwner, gbc);
 
-        
         gbc.gridx = 0; gbc.gridy = 1;
         add(new JLabel("Phone number:"), gbc);
         gbc.gridx = 1;
@@ -55,7 +53,6 @@ public class PanelVehicle extends JPanel {
         txtCedula = new JTextField(10);
         add(txtCedula, gbc);
 
-        
         gbc.gridx = 1; gbc.gridy = 2;
         add(new JLabel("Entry:"), gbc);
         gbc.gridy = 3;
@@ -77,7 +74,6 @@ public class PanelVehicle extends JPanel {
         txtPay.setEditable(true);
         add(txtPay, gbc);
 
-      
         gbc.gridx = 0; gbc.gridy = 3;
         btnLiquidate = new JButton("Liquidate");
         add(btnLiquidate, gbc);
@@ -86,14 +82,17 @@ public class PanelVehicle extends JPanel {
         btnSend = new JButton("Send");
         add(btnSend, gbc);
 
-
         btnSend.addActionListener(e -> {
+            String placa = getPlate();
+            if (!esPlacaValida(placa)) {
+                JOptionPane.showMessageDialog(this, "La placa ingresada no es valida", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             fechaHoraActual = LocalDateTime.now().format(dateTimeFormatter);
             txtEntry.setText(LocalTime.now().format(timeFormatter));
         });
     }
 
-    
     public String getPlate() {
         return txtPlate.getText().trim();
     }
@@ -141,7 +140,6 @@ public class PanelVehicle extends JPanel {
 
     public void setMode(String mode) {
         if ("Create".equals(mode)) {
-         
             txtEntry.setEnabled(true);
         } else {
             txtEntry.setText("");
@@ -195,5 +193,14 @@ public class PanelVehicle extends JPanel {
                 btnSend.setEnabled(false);
                 break;
         }
+    }
+
+    private boolean esPlacaValida(String placa) {
+        if (placa == null) return false;
+        placa = placa.toUpperCase().trim();
+      
+        if (placa.matches("^[A-Z]{3}\\d{3}$")) return true;
+      
+        return placa.matches("^[A-Z]{3}\\d{2}[A-Z]$");
     }
 }
