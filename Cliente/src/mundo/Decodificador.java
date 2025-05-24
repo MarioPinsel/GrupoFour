@@ -8,7 +8,7 @@ public class Decodificador {
     private static final String RED = "\u001B[31m";
     private static final String BLUE = "\u001B[34m";
 
-    private int paco = 0;
+    private int segundaEntrada = 0;
     private String traduccion = "";
     private ArrayList<String> diccionario = new ArrayList<>();
     private boolean usarRojo = true;
@@ -16,11 +16,11 @@ public class Decodificador {
 
     public void procesar(int primeraEntrada) {
 
-        if (paco == 0) {
-            paco = primeraEntrada;
+        if (segundaEntrada == 0) {
+            segundaEntrada = primeraEntrada;
         } else {
-            decodificar(paco, primeraEntrada);
-            paco = primeraEntrada;
+            decodificar(segundaEntrada, primeraEntrada);
+            segundaEntrada = primeraEntrada;
         }
     }
 
@@ -30,15 +30,15 @@ public class Decodificador {
         } else if (codigo - 256 < diccionario.size()) {
             return diccionario.get(codigo - 256);
         } else {
-            // Caso especial LZW: código aún no en diccionario
-            String entradaAnterior = obtenerEntrada(paco); // usa PE
+
+            String entradaAnterior = obtenerEntrada(segundaEntrada);
             return entradaAnterior + entradaAnterior.charAt(0);
         }
     }
 
-    public void decodificar(int paco, int luis) {
-        String pe = obtenerEntrada(paco);
-        String se = obtenerEntrada(luis);
+    public void decodificar(int segundaEntrada, int primeraEntrada) {
+        String pe = obtenerEntrada(segundaEntrada);
+        String se = obtenerEntrada(primeraEntrada);
 
         String ps = pe + se.charAt(0);
 
@@ -57,8 +57,8 @@ public class Decodificador {
     }
 
     public void imprimir() {
-        if (paco != 0) {
-            String ultimo = obtenerEntrada(paco);
+        if (segundaEntrada != 0) {
+            String ultimo = obtenerEntrada(segundaEntrada);
             traduccion += ultimo;
 
             if (usarRojo) {
@@ -67,7 +67,7 @@ public class Decodificador {
                 bloquesColoreados.add(BLUE + ultimo + RESET);
             }
             usarRojo = !usarRojo;
-            paco = 0;
+            segundaEntrada = 0;
         }
 
         for (String bloque : bloquesColoreados) {

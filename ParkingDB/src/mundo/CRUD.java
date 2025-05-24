@@ -16,6 +16,4 @@ public interface CRUD {
 
     public int update(String string) throws SQLException;
 
-    
-
 }
