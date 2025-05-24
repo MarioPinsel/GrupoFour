@@ -2,9 +2,6 @@ package interfaz;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public class PanelVehicle extends JPanel {
     private JTextField txtPlate;
@@ -16,11 +13,6 @@ public class PanelVehicle extends JPanel {
     private JTextField txtPay;
     private JButton btnLiquidate;
     private JButton btnSend;
-
-    private String fechaHoraActual;
-
-    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public PanelVehicle() {
         setBorder(BorderFactory.createTitledBorder("VEHICLE"));
@@ -84,45 +76,52 @@ public class PanelVehicle extends JPanel {
 
         btnSend.addActionListener(e -> {
             String placa = getPlate();
+            String telefono = getPhone();
+            String cedula = getCedula();
+
             if (!esPlacaValida(placa)) {
-                JOptionPane.showMessageDialog(this, "La placa ingresada no es valida", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La placa ingresada no es válida", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            fechaHoraActual = LocalDateTime.now().format(dateTimeFormatter);
-            txtEntry.setText(LocalTime.now().format(timeFormatter));
+
+            if (!soloNumeros(telefono)) {
+                JOptionPane.showMessageDialog(this, "El teléfono debe tener solo números", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (!soloNumeros(cedula)) {
+                JOptionPane.showMessageDialog(this, "La cédula debe tener solo números", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         });
     }
 
     public String getPlate() {
-        return txtPlate.getText().trim();
+        return txtPlate.getText();
     }
 
     public String getOwner() {
-        return txtOwner.getText().trim();
+        return txtOwner.getText();
     }
 
     public String getPhone() {
-        return txtPhone.getText().trim();
+        return txtPhone.getText();
     }
 
     public String getCedula() {
-        return txtCedula.getText().trim();
+        return txtCedula.getText();
     }
 
     public String getEntry() {
-        return txtEntry.getText().trim();
+        return txtEntry.getText();
     }
 
     public String getDeparture() {
-        return txtDeparture.getText().trim();
+        return txtDeparture.getText();
     }
 
     public String getPay() {
-        return txtPay.getText().trim();
-    }
-
-    public String getFechaHoraActual() {
-        return fechaHoraActual;
+        return txtPay.getText();
     }
 
     public JButton getBtnSend() {
@@ -131,11 +130,6 @@ public class PanelVehicle extends JPanel {
 
     public JButton getBtnLiquidate() {
         return btnLiquidate;
-    }
-
-    private void actualizarHoraEntry() {
-        String horaActual = LocalDateTime.now().format(timeFormatter);
-        txtEntry.setText(horaActual);
     }
 
     public void setMode(String mode) {
@@ -198,9 +192,14 @@ public class PanelVehicle extends JPanel {
     private boolean esPlacaValida(String placa) {
         if (placa == null) return false;
         placa = placa.toUpperCase().trim();
-      
+
         if (placa.matches("^[A-Z]{3}\\d{3}$")) return true;
-      
+
         return placa.matches("^[A-Z]{3}\\d{2}[A-Z]$");
+    }
+
+    private boolean soloNumeros(String texto) {
+        if (texto == null || texto.isEmpty()) return false;
+        return texto.matches("\\d+");
     }
 }

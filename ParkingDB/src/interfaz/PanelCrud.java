@@ -28,7 +28,6 @@ public class PanelCrud extends JPanel {
         group.add(rbRead);
         group.add(rbUpdate);
         group.add(rbDelete);
-
         add(rbCreate);
         add(rbRead);
         add(rbUpdate);
