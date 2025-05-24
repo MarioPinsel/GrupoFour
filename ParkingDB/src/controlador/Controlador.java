@@ -29,24 +29,24 @@ public class Controlador {
          panelConsole.log(parking.create(placa, numero, nombre, cedula));         
     }
 
-  /*  public void read(String placa) {
+    public void read(String placa) {
         ArrayList<String> info = parking.read(placa);
     }
 
-    public void update(String placa, String numero, String nombre, String cedula) {
-        ArrayList<String> info = new ArrayList<>();
-        info.add(placa);
-        info.add(numero);
-        info.add(nombre);
-        info.add(cedula);
-        parking.update(placa, numero, nombre, cedula);
-    }
+//    public void update(String placa, String numero, String nombre, String cedula) {
+//        ArrayList<String> info = new ArrayList<>();
+//        info.add(placa);
+//        info.add(numero);
+//        info.add(nombre);
+//        info.add(cedula);
+//        parking.update(placa, numero, nombre, cedula);
+//    }
 
-    public void delete(String placa) {
-        if (parking.delete(placa)) {
-            panelConsole.log("Vehículo eliminado correctamente.");
-        } else {
-            panelConsole.log("No se encontró el vehículo con la placa: " + placa);
-        }
-    }*/
+//    public void delete(String placa) {
+//        if (parking.delete(placa)) {
+//            panelConsole.log("Vehículo eliminado correctamente.");
+//        } else {
+//            panelConsole.log("No se encontró el vehículo con la placa: " + placa);
+//        }
+//    }
 }

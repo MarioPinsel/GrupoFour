@@ -101,6 +101,8 @@ public class PanelVehicle extends JPanel {
                 JOptionPane.showMessageDialog(this, "La cédula debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
+            
         });
 
         btnLiquidate.addActionListener(e -> {
