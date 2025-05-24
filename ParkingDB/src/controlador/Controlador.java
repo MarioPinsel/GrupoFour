@@ -1,8 +1,11 @@
 package controlador;
 
+import interfaz.PanelConsole;
+import interfaz.PanelCrud;
+import interfaz.PanelVehicle;
 import java.util.ArrayList;
 
-import interfaz.*;
+
 import mundo.*;
 
 public class Controlador {
@@ -16,23 +19,17 @@ public class Controlador {
         parking = new Parking();
     }
 
-    public void setIntance(PanelCrud pc, PanelVehicle pv, PanelConsole pco) {
-        this.panelCrud = pc;
-        this.panelVehicle = pv;
-        this.panelConsole = pco;
+    public void setIntance(PanelCrud pC, PanelVehicle pV, PanelConsole pCo) {
+        this.panelCrud = pC;
+        this.panelVehicle = pV;
+        this.panelConsole = pCo;
     }
 
-    public void create(String placa, String numero, String nombre, String cedula) {
-        ArrayList<String> info = new ArrayList<>();
-        info.add(placa);
-        info.add(numero);
-        info.add(nombre);
-        info.add(cedula);
-        parking.create(placa, numero, nombre, cedula);
-
+    public void create(String placa, String numero, String nombre, String cedula) {                    
+         panelConsole.log(parking.create(placa, numero, nombre, cedula));         
     }
 
-    public void read(String placa) {
+  /*  public void read(String placa) {
         ArrayList<String> info = parking.read(placa);
     }
 
@@ -51,5 +48,5 @@ public class Controlador {
         } else {
             panelConsole.log("No se encontró el vehículo con la placa: " + placa);
         }
-    }
+    }*/
 }

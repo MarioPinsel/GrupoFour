@@ -164,10 +164,7 @@ public class Parking {
                 } while (rst.next());
             } else {
                 datos.add("SIN_DATOS");
-            }
-            for (String blah : datos) {
-                System.out.println(blah);
-            }
+            }            
         } catch (SQLException ex) {
             Logger.getLogger(Parking.class.getName()).log(Level.SEVERE, null, ex);
         }

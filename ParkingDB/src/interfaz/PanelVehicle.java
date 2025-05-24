@@ -25,6 +25,7 @@ public class PanelVehicle extends JPanel {
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public PanelVehicle() {
+        ctrl = new Controlador();
         setBorder(BorderFactory.createTitledBorder("VEHICLE"));
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -100,7 +101,7 @@ public class PanelVehicle extends JPanel {
             }
             fechaHoraActual = LocalDateTime.now().format(dateTimeFormatter);
             txtEntry.setText(LocalTime.now().format(timeFormatter));
-            ctrl.create(placa, getOwner(), getPhone(), getCedula());
+            ctrl.create(placa, getPhone(),getOwner(), getCedula());
         });
     }
 
