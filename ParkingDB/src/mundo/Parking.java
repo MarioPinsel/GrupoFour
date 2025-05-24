@@ -124,36 +124,35 @@ public class Parking {
                 System.out.println("CAGO");
         }
     }
+    
 
-    public ArrayList<String> getLiquidation(String placa) {
+    private ArrayList<String> getLiquidation(String placa) {
         ArrayList<String> info;
 
         LocalDateTime ahora = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String fechaHoraSalida = ahora.format(formatter);
+        String horaSalida = ahora.format(formatter);
 
         info = select(1, placa);
-        String fechaHoraIngreso = info.get(1);
+        String horaIngreso = info.get(1);
 
-        int ingresoSeg = conversion(fechaHoraIngreso);
-        int salidaSeg = conversion(fechaHoraSalida);
+        int ingresoSeg = conversion(horaIngreso);
+        int salidaSeg = conversion(horaSalida);
 
-        double liquidacion = (salidaSeg - ingresoSeg) / 60 * 90;
+        double pago = (salidaSeg - ingresoSeg) / 60 * 90;
 
         info.clear();
-        info.add(String.valueOf(ingresoSeg));
-        info.add(String.valueOf(salidaSeg));
-        info.add(String.valueOf(liquidacion));
+        info.add(String.valueOf(horaIngreso));
+        info.add(String.valueOf(horaSalida));
+        info.add(String.valueOf(pago));
 
         try {
-            pers.update("UPDATE registro SET Hora_Salida = '" + fechaHoraSalida + "' WHERE Placa = " + placa);
-            pers.update("UPDATE registro SET Pago = '" + liquidacion + "' WHERE Placa = " + placa);
+            pers.update("UPDATE registro SET Hora_Salida = '" + horaSalida + "' WHERE Placa = " + placa);
+            pers.update("UPDATE registro SET Pago = '" + pago + "' WHERE Placa = " + placa);
+            pers.update("UPDATE veiculo SET Estado = '" + 0 + "' WHERE Placa = " + placa);
         } catch (SQLException ex) {
             Logger.getLogger("ERROR: No se pudo ingresar los datos de entrada o salida");
-        }
-        for (String wa : info) {
-            System.out.println(wa);
-        }
+        }        
         return info;
 
     }
