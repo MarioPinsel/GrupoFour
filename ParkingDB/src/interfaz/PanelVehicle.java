@@ -2,12 +2,6 @@ package interfaz;
 
 import javax.swing.*;
 import java.awt.*;
-InterfazDB
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import controlador.Controlador;
- main
 
 public class PanelVehicle extends JPanel {
 
@@ -20,16 +14,8 @@ public class PanelVehicle extends JPanel {
     private JTextField txtPay;
     private JButton btnLiquidate;
     private JButton btnSend;
- InterfazDB
-    private Controlador ctrl;
-    private String fechaHoraActual;
-
-    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-    private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
- main
 
     public PanelVehicle() {
-        ctrl = new Controlador();
         setBorder(BorderFactory.createTitledBorder("VEHICLE"));
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -102,28 +88,30 @@ public class PanelVehicle extends JPanel {
             String cedula = getCedula();
 
             if (!esPlacaValida(placa)) {
- InterfazDB
                 JOptionPane.showMessageDialog(this, "La placa ingresada no es válida", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             if (!soloNumeros(telefono)) {
-                JOptionPane.showMessageDialog(this, "El teléfono debe tener solo números", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El número de teléfono debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             if (!soloNumeros(cedula)) {
-                JOptionPane.showMessageDialog(this, "La cédula debe tener solo números", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La cédula debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-                JOptionPane.showMessageDialog(this, "La placa ingresada no es valida", "Error",
-                        JOptionPane.ERROR_MESSAGE);
+        });
+
+        btnLiquidate.addActionListener(e -> {
+            String placa = getPlate();
+
+            if (!esPlacaValida(placa)) {
+                JOptionPane.showMessageDialog(this, "La placa ingresada no es válida", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            fechaHoraActual = LocalDateTime.now().format(dateTimeFormatter);
-            txtEntry.setText(LocalTime.now().format(timeFormatter));
-            ctrl.create(placa, getPhone(),getOwner(), getCedula());
- main
+
+            JOptionPane.showMessageDialog(this, "Liquidación realizada para la placa: " + placa, "Info", JOptionPane.INFORMATION_MESSAGE);
         });
     }
 
@@ -184,6 +172,7 @@ public class PanelVehicle extends JPanel {
                 btnSend.setEnabled(true);
                 break;
             case "Read":
+                
             case "Delete":
                 txtPlate.setEditable(true);
                 txtOwner.setEditable(false);
@@ -221,21 +210,20 @@ public class PanelVehicle extends JPanel {
     }
 
     private boolean esPlacaValida(String placa) {
-        if (placa == null)
+        if (placa == null) {
             return false;
+        }
         placa = placa.toUpperCase().trim();
-
- InterfazDB
-        if (placa.matches("^[A-Z]{3}\\d{3}$")) return true;
-        if (placa.matches("^[A-Z]{3}\\d{3}$"))
+        if (placa.matches("^[A-Z]{3}\\d{3}$")) {
             return true;
- main
-
+        }
         return placa.matches("^[A-Z]{3}\\d{2}[A-Z]$");
     }
 
     private boolean soloNumeros(String texto) {
-        if (texto == null || texto.isEmpty()) return false;
+        if (texto == null || texto.isEmpty()) {
+            return false;
+        }
         return texto.matches("\\d+");
     }
 }

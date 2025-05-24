@@ -21,7 +21,6 @@ public class Parking {
         pers = new Persistencia();
     }
 
- EST-wawa
     public ArrayList<String> read(String placa) {
         ArrayList<String> info = select(2, placa);
         ArrayList<String> existencia = new ArrayList<>();
@@ -58,6 +57,8 @@ public class Parking {
             System.out.println(a);
         }
         return existencia;
+
+    }
 
     public String create(String placa, String numero, String nombre, String cedula) {
         String rta = "";
@@ -183,8 +184,7 @@ public class Parking {
     /* 
     "DELETE FROM <Nombre de la tabla> WHERE <llave> = " + valor); 
      CRU(Delete)
-     */    
-
+     */
     public ArrayList<String> select(int opcion, String filtro) {
         ArrayList<String> datos = new ArrayList<>();
         selectRoute(opcion, filtro);
@@ -201,8 +201,6 @@ public class Parking {
             } else {
                 datos.add("SIN_DATOS");
             }
-        }
-              
         } catch (SQLException ex) {
             Logger.getLogger(Parking.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -238,7 +236,6 @@ public class Parking {
                 System.out.println("CAGO");
         }
     }
-    
 
     private ArrayList<String> getLiquidation(String placa) {
         ArrayList<String> info;
@@ -266,7 +263,7 @@ public class Parking {
             pers.update("UPDATE veiculo SET Estado = '" + 0 + "' WHERE Placa = " + placa);
         } catch (SQLException ex) {
             Logger.getLogger("ERROR: No se pudo ingresar los datos de entrada o salida");
-        }        
+        }
         return info;
 
     }
