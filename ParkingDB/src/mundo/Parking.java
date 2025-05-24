@@ -3,6 +3,8 @@ package mundo;
 import com.mysql.jdbc.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,24 +36,55 @@ public class Parking {
 //        return false;
 //    }
 //
-//    public ArrayList<String> read(String placa) {
-//        ArrayList<String> info = new ArrayList<>();
-//        try {
-//            if (!selectVehiculo(placa)) {
-//                info.add("VACIO");  //Si no existe el vehiculo, manda vacio
-//            } else {
-//                if (selectParqueo(placa, '0')) {
-//                    info.add()
-//                }
+    public ArrayList<String> read(String placa) {
+        ArrayList<String> info = select(2, placa);
+        ArrayList<String> existencia = new ArrayList<>();
+        if (info.contains("SIN_DATOS")) {
+            existencia.add("El vehiculo no exixte");
+        }
+        if (info.contains("0")) {
+            info = select(1, placa);
+            existencia.add(info.get(1)); //H ingreso
+            existencia.add(info.get(2)); //H Salida
+            existencia.add(info.get(6)); //Pago
+            existencia.add(info.get(4)); //Cedula
+
+            info = select(3, existencia.get(3));
+            existencia.add(info.get(1)); //Nombre
+            existencia.add(info.get(2)); //Numero            
+            existencia.add("Vehiculo no parqueado\n"
+                    + "Mostrando ultimo registro de entrada");
+        }
+
+        if (info.contains("1")) {
+            info = select(1, placa);
+            existencia.add(info.get(4)); //Cedula
+
+            info = select(3, existencia.get(0));
+            existencia.add(info.get(1)); //Nombre
+            existencia.add(info.get(2)); //Numero            
+            existencia.add("El vehiculo esta parqueado\n"
+                    + "Mostrando datos ...");
+
+//            
+//            LocalDateTime ahora = LocalDateTime.now();
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//            String fechaHoraIngreso = ahora.format(formatter);
+//            try {
+//                pers.update("UPDATE vehiculo SET Estado = 1 WHERE Placa = '" + placa + "'");
+//            } catch (SQLException ex) {
+//                System.out.println("WAWAWWAWAWWAWAW");
 //            }
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Parking.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return info;
-//    }
+        }
+
+        for (String a : existencia) {
+            System.out.println(a);
+        }
+        return existencia;
+    }
+
     public void insert() throws SQLException {
-        //pers.update("INSERT INTO registr ( Placa, Marca, Modelo, Tipo_de_Vehiculo_idTipo ) VALUES (  'JHG'  , 'audi' , 'r8', " + 1 + ")" );
+        pers.update("INSERT INTO registro ( idRegistro, Hora_Ingreso, Hora_Salida, Vehiculo_Placa, Visitante_Cédula, Tarifa_Anio, Pago ) VALUES ( " + null + ", '11:50' , " + null + ", BAT000, 515151, 2025, " + null + ")");
         /*pers.update("INSERT INTO TipoProducto ( ID_CodTipo, nombreTipo ) VALUES ( " + null + ", 'Impresoras')");*/
 
     }
@@ -75,9 +108,9 @@ public class Parking {
     public ArrayList<String> select(int opcion, String filtro) {
         ArrayList<String> datos = new ArrayList<>();
         selectRoute(opcion, filtro);
-       
-        try {           
-            ResultSet rst = pers.select(sql);            
+
+        try {
+            ResultSet rst = pers.select(sql);
             if (rst.next()) {
                 do {
                     int columnCount = rst.getMetaData().getColumnCount();
@@ -87,9 +120,6 @@ public class Parking {
                 } while (rst.next());
             } else {
                 datos.add("SIN_DATOS");
-            }
-            for(String blah : datos){
-                System.out.println(blah);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Parking.class.getName()).log(Level.SEVERE, null, ex);
@@ -125,5 +155,19 @@ public class Parking {
             default:
                 System.out.println("CAGO");
         }
+    }
+
+    public ArrayList<String> getLiquidation() {
+        ArrayList<String> info = null;
+        LocalDateTime ahora = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String fechaHoraIngreso = ahora.format(formatter);
+        
+        try {
+            pers.update("UPDATE registro SET Hora_Salida = '" + fechaHoraIngreso + "' WHERE ID_CodTipo = " + 7);
+        } catch (SQLException ex) {
+            Logger.getLogger(Parking.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return info;
     }
 }

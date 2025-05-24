@@ -34,7 +34,7 @@ public class InterfazApp extends JFrame {
         new InterfazApp();
         Parking pers = new Parking();
         //pers.insert();
-        pers.select(1, "BAT000");
+        pers.read("BAT000");
 
     }
 }
