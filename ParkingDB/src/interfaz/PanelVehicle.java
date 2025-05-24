@@ -5,8 +5,10 @@ import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import controlador.Controlador;
 
 public class PanelVehicle extends JPanel {
+
     private JTextField txtPlate;
     private JTextField txtOwner;
     private JTextField txtPhone;
@@ -16,7 +18,7 @@ public class PanelVehicle extends JPanel {
     private JTextField txtPay;
     private JButton btnLiquidate;
     private JButton btnSend;
-
+    private Controlador ctrl;
     private String fechaHoraActual;
 
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -29,7 +31,8 @@ public class PanelVehicle extends JPanel {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        gbc.gridx = 0; gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
         add(new JLabel("Plate:"), gbc);
         gbc.gridx = 1;
         txtPlate = new JTextField(10);
@@ -41,7 +44,8 @@ public class PanelVehicle extends JPanel {
         txtOwner = new JTextField(20);
         add(txtOwner, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
         add(new JLabel("Phone number:"), gbc);
         gbc.gridx = 1;
         txtPhone = new JTextField(10);
@@ -53,39 +57,45 @@ public class PanelVehicle extends JPanel {
         txtCedula = new JTextField(10);
         add(txtCedula, gbc);
 
-        gbc.gridx = 1; gbc.gridy = 2;
+        gbc.gridx = 1;
+        gbc.gridy = 2;
         add(new JLabel("Entry:"), gbc);
         gbc.gridy = 3;
         txtEntry = new JTextField(8);
         txtEntry.setEditable(false);
         add(txtEntry, gbc);
 
-        gbc.gridx = 2; gbc.gridy = 2;
+        gbc.gridx = 2;
+        gbc.gridy = 2;
         add(new JLabel("Departure:"), gbc);
         gbc.gridy = 3;
         txtDeparture = new JTextField(5);
         txtDeparture.setEditable(true);
         add(txtDeparture, gbc);
 
-        gbc.gridx = 3; gbc.gridy = 2;
+        gbc.gridx = 3;
+        gbc.gridy = 2;
         add(new JLabel("Pay:"), gbc);
         gbc.gridy = 3;
         txtPay = new JTextField(5);
         txtPay.setEditable(true);
         add(txtPay, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 3;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
         btnLiquidate = new JButton("Liquidate");
         add(btnLiquidate, gbc);
 
-        gbc.gridx = 3; gbc.gridy = 4;
+        gbc.gridx = 3;
+        gbc.gridy = 4;
         btnSend = new JButton("Send");
         add(btnSend, gbc);
 
         btnSend.addActionListener(e -> {
             String placa = getPlate();
             if (!esPlacaValida(placa)) {
-                JOptionPane.showMessageDialog(this, "La placa ingresada no es valida", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "La placa ingresada no es valida", "Error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
             fechaHoraActual = LocalDateTime.now().format(dateTimeFormatter);
@@ -196,11 +206,13 @@ public class PanelVehicle extends JPanel {
     }
 
     private boolean esPlacaValida(String placa) {
-        if (placa == null) return false;
+        if (placa == null)
+            return false;
         placa = placa.toUpperCase().trim();
-      
-        if (placa.matches("^[A-Z]{3}\\d{3}$")) return true;
-      
+
+        if (placa.matches("^[A-Z]{3}\\d{3}$"))
+            return true;
+
         return placa.matches("^[A-Z]{3}\\d{2}[A-Z]$");
     }
 }
