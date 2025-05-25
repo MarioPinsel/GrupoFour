@@ -21,11 +21,12 @@ public class InterfazApp extends JFrame {
         setSize(800, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
-
-        panelVehicle = new PanelVehicle();
+        
+        ctrl = new Controlador();
+        panelVehicle = new PanelVehicle(ctrl);
         panelCrud = new PanelCrud(panelVehicle); 
         panelConsole = new PanelConsole();
-        ctrl = new Controlador();
+        
         ctrl.setIntance(panelCrud, panelVehicle, panelConsole);    
         
         add(panelCrud, BorderLayout.NORTH);
@@ -41,7 +42,9 @@ public class InterfazApp extends JFrame {
     public static void main(String[] args) throws SQLException {
 
         new InterfazApp();
-                   
+        
+        
+        
        
 
     }
