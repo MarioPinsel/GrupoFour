@@ -89,43 +89,49 @@ public class PanelVehicle extends JPanel {
 
         btnSend.addActionListener(e -> {
             String placa = getPlate();
-            String telefono = getPhone();
-            String cedula = getCedula();
-            String nombre = getOwner().toUpperCase();
 
             if (!esPlacaValida(placa)) {
                 JOptionPane.showMessageDialog(this, "La placa ingresada no es válida", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            if (!soloNumeros(telefono)) {
-                JOptionPane.showMessageDialog(this, "El número de teléfono debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            if (!soloNumeros(cedula)) {
-                JOptionPane.showMessageDialog(this, "La cédula debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
             switch (mode) {
                 case "Create":
-                    ctrl.create(placa, telefono, nombre, cedula);
+                case "Update":
+                    String telefono = getPhone();
+                    String cedula = getCedula();
+                    String nombre = getOwner().toUpperCase();
+
+                    if (!soloNumeros(telefono)) {
+                        JOptionPane.showMessageDialog(this, "El número de teléfono debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    if (!soloNumeros(cedula)) {
+                        JOptionPane.showMessageDialog(this, "La cédula debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+
+                    if ("Create".equals(mode)) {
+                        ctrl.create(placa, telefono, nombre, cedula);
+                    } else {
+                       // ctrl.update(placa, telefono, nombre, cedula); 
+                    }
                     break;
+
                 case "Read":
                     ctrl.read(placa);
                     break;
-                case "Update":
-                   // ctrl.update(placa, telefono, nombre, cedula);
-                    break;
+
                 case "Delete":
-                   // ctrl.delete(placa);
+                    ctrl.delete(placa);
                     break;
             }
+
             txtPlate.setText("");
             txtOwner.setText("");
             txtPhone.setText("");
             txtCedula.setText("");
-
         });
 
         btnLiquidate.addActionListener(e -> {
