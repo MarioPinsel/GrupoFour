@@ -1,5 +1,6 @@
 package interfaz;
 
+import controlador.Controlador;
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,8 +15,11 @@ public class PanelVehicle extends JPanel {
     private JTextField txtPay;
     private JButton btnLiquidate;
     private JButton btnSend;
+    private Controlador ctrl;
+    private String mode;
 
-    public PanelVehicle() {
+    public PanelVehicle(Controlador ctrl) {
+        this.ctrl = ctrl;
         setBorder(BorderFactory.createTitledBorder("VEHICLE"));
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -86,6 +90,7 @@ public class PanelVehicle extends JPanel {
             String placa = getPlate();
             String telefono = getPhone();
             String cedula = getCedula();
+            String nombre = getOwner().toUpperCase();
 
             if (!esPlacaValida(placa)) {
                 JOptionPane.showMessageDialog(this, "La placa ingresada no es válida", "Error", JOptionPane.ERROR_MESSAGE);
@@ -101,8 +106,25 @@ public class PanelVehicle extends JPanel {
                 JOptionPane.showMessageDialog(this, "La cédula debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
-            
+            switch (mode) {
+                case "Create":
+                    ctrl.create(placa, telefono, nombre, cedula);
+                    break;
+                case "Read":
+                    ctrl.read(placa);
+                    break;
+                case "Update":
+                   // ctrl.update(placa, telefono, nombre, cedula);
+                    break;
+                case "Delete":
+                   // ctrl.delete(placa);
+                    break;
+            }
+            txtPlate.setText("");
+            txtOwner.setText("");
+            txtPhone.setText("");
+            txtCedula.setText("");
+
         });
 
         btnLiquidate.addActionListener(e -> {
@@ -154,6 +176,7 @@ public class PanelVehicle extends JPanel {
     }
 
     public void setMode(String mode) {
+        this.mode = mode;
         if ("Create".equals(mode)) {
             txtEntry.setEnabled(true);
         } else {
@@ -174,7 +197,7 @@ public class PanelVehicle extends JPanel {
                 btnSend.setEnabled(true);
                 break;
             case "Read":
-                
+
             case "Delete":
                 txtPlate.setEditable(true);
                 txtOwner.setEditable(false);
