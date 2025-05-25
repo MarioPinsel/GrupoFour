@@ -93,10 +93,10 @@ public class Parking {
             } else if (vehiculoExiste && vehiculoData.get(1).equals("2") && !visitanteExiste) {
                 //Caso 6: Vehiculo ha sido "eliminado" anteriormente y el visitante no existe, se cambia el estado a 1(parqueado) y se crea visitante y registro
                 pers.update("UPDATE vehiculo SET Estado = 1 WHERE Placa = '" + placa + "'");
-                insert(1, placa, numero, nombre, cedula); 
-                insert(3, placa, numero, nombre, cedula); 
+                insert(1, placa, numero, nombre, cedula);
+                insert(3, placa, numero, nombre, cedula);
                 rta = "Vehículo creado.";
-            }else if (vehiculoExiste && vehiculoData.get(1).equals("2") && visitanteExiste) {
+            } else if (vehiculoExiste && vehiculoData.get(1).equals("2") && visitanteExiste) {
                 // Caso 7: Vehiculo ha sido "eliminado" anteriormente y el visitante ya existe, se cambia el estado a 1(parqueado) y se crea el registro
                 pers.update("UPDATE vehiculo SET Estado = 1 WHERE Placa = '" + placa + "'");
                 insert(3, placa, numero, nombre, cedula); // registro
@@ -167,8 +167,36 @@ public class Parking {
     "UPDATE <Nombre de la tabla> SET <campo> = " + "'GoPro'" + " WHERE <llave> = " + valor );
      CR(Update)D
      */
-    public void update() throws SQLException {
-        pers.update("UPDATE vehiculo SET Modelo = " + "'Caratumba'" + " WHERE Placa = " + "'JHG'");
+    public ArrayList<String> existenceValidation(String cedula) {
+        ArrayList<String> info = select(3, cedula);
+        ArrayList<String> existencia = new ArrayList<>();
+
+        if (info.get(0).equals("SIN_DATOS")) {
+            existencia.add("Visitante no existente, creelo");
+            return existencia;
+        }
+
+        existencia.add(""); //H ingreso
+        existencia.add(""); //H salida
+        existencia.add("."); //Pago            
+        existencia.add(info.get(0)); //Cedula
+        existencia.add(info.get(1)); //Nombre
+        existencia.add(info.get(2)); //Numero
+        return existencia;
+    }
+
+    public void update(ArrayList<String> info) {
+        ArrayList<String> existence = info;
+
+        try {
+            pers.update("UPDATE visitante SET Nombre = '" + info.get(1) + "' WHERE Cédula = '" + info.get(0) + "'");
+            pers.update("UPDATE visitante SET Número = '" + info.get(2) + "' WHERE Cédula = '" + info.get(0) + "'");
+
+        } catch (SQLException ex) {
+            System.out.println("ERROR: No se puede actualizar la informacion pertinente");
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     public ArrayList<String> delete(String placa) {
@@ -213,7 +241,6 @@ public class Parking {
 
         return info;
     }
-
 
     public ArrayList<String> select(int opcion, String filtro) {
         ArrayList<String> datos = new ArrayList<>();
