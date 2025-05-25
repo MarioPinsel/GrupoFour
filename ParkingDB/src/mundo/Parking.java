@@ -80,42 +80,42 @@ public class Parking {
                 }
             }
             if (vehiculoExiste && vehiculoActivo && !visitanteExiste) {
-                rta = "Vehicle is already active with another visitor";
+                rta = "Vehicle is already active with another visitor.";
             }
             if (!vehiculoExiste && !visitanteExiste) {
                 // Caso 1: No existe ni vehiculo ni visitante---- CREAR TODO
                 insert(4, placa, numero, nombre, cedula);
-                rta = "Vehículo creado";
+                rta = "Vehículo creado.";
             } else if (vehiculoExiste && vehiculoActivo && visitanteExiste) {
                 // Caso 2: Si todo existe, no hacer na
-                rta = "El vehículo ya existe";
+                rta = "El vehículo ya existe.";
             } else if (vehiculoExiste && vehiculoData.get(1).equals("2") && !visitanteExiste) {
                 //Caso 6: Vehiculo ha sido "eliminado" anteriormente y el visitante no existe, se cambia el estado a 1(parqueado) y se crea visitante y registro
                 pers.update("UPDATE vehiculo SET Estado = 1 WHERE Placa = '" + placa + "'");
                 insert(1, placa, numero, nombre, cedula); 
                 insert(3, placa, numero, nombre, cedula); 
-                rta = "Vehículo creado";
+                rta = "Vehículo creado.";
             }else if (vehiculoExiste && vehiculoData.get(1).equals("2") && visitanteExiste) {
                 // Caso 7: Vehiculo ha sido "eliminado" anteriormente y el visitante ya existe, se cambia el estado a 1(parqueado) y se crea el registro
                 pers.update("UPDATE vehiculo SET Estado = 1 WHERE Placa = '" + placa + "'");
                 insert(3, placa, numero, nombre, cedula); // registro
-                rta = "Vehículo creado y el visitante ya existía";
+                rta = "Vehículo creado y el visitante ya existía.";
             } else if (!vehiculoExiste && visitanteExiste) {
                 // Caso 5:Vehiculo no existe y visitante sí existe --- crear vehiculo y agregar registro
                 insert(2, placa, numero, nombre, cedula);
                 insert(3, placa, numero, nombre, cedula);
-                rta = "El vehiculo no existe, visitante si, se creo el vehiculo, se agrega un registro";
+                rta = "El vehiculo no existe, visitante si, se creo el vehiculo, se agrega un registro.";
             } else if (vehiculoExiste && !vehiculoActivo && !visitanteExiste) {
                 // Caso 3: Vehiculo existe, inactivo y visitante no existe--- se activa vehiculo, crear visitante, agregar registro
                 pers.update("UPDATE vehiculo SET Estado = 1 WHERE Placa = '" + placa + "'");
                 insert(1, placa, numero, nombre, cedula);
                 insert(3, placa, numero, nombre, cedula);
-                rta = "El vehiculo existe, se cambio a activo, se crea un visitante, se agrega un registro";
+                rta = "El vehiculo existe, se cambio a activo, se crea un visitante, se agrega un registro.";
             } else if (vehiculoExiste && !vehiculoActivo && visitanteExiste) {
                 // Caso 4: Vehiculo existe, esta inactivo y visitante sí existe ---- Solo agregar registro
                 pers.update("UPDATE vehiculo SET Estado = 1 WHERE Placa = '" + placa + "'");
                 insert(3, placa, numero, nombre, cedula);
-                rta = "El vehiculo existe, se cambio a activo, el visitante ya existia, se agrega un registro";
+                rta = "El vehiculo existe, se cambio a activo, el visitante ya existia, se agrega un registro.";
             }
 
         } catch (SQLException ex) {
@@ -193,9 +193,9 @@ public class Parking {
 
         ArrayList<String> registro = select(1, placa);
         if (registro.get(0).equals("SIN_DATOS")) {
-            info.add("Vehículo marcado como borrado. No hay registros anteriores.");
+            info.add("Vehículo borrado. No hay registros anteriores.");
         } else {
-            info.add("Vehículo marcado como borrado.");
+            info.add("Vehículo borrado.");
             info.add("Último ingreso: " + registro.get(1));
             info.add("Última salida: " + registro.get(2));
             info.add("Pago: " + registro.get(6));
@@ -212,6 +212,7 @@ public class Parking {
 
         return info;
     }
+
 
     public ArrayList<String> select(int opcion, String filtro) {
         ArrayList<String> datos = new ArrayList<>();
