@@ -44,11 +44,22 @@ public class Controlador {
 //        info.add(cedula);
 //        parking.update(placa, numero, nombre, cedula);
 //    }
-//    public void delete(String placa) {
-//        if (parking.delete(placa)) {
-//            panelConsole.log("Vehículo eliminado correctamente.");
-//        } else {
-//            panelConsole.log("No se encontró el vehículo con la placa: " + placa);
-//        }
-//    }
+    
+    
+    
+    public void delete(String placa) {
+        ArrayList<String> info = parking.delete(placa);
+        if (info.size()==1) {
+           panelConsole.log(info.get(0)); 
+        }else{
+        panelConsole.log(info.get(0));
+        info.remove(0);   
+        for (String aya:info) {
+            panelConsole.log(aya);
+        }
+        panelVehicle.actualizarInterfaz(info);
+        }
+    }
+    
+    
 }
