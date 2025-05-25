@@ -3,6 +3,7 @@ package interfaz;
 import controlador.Controlador;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class PanelVehicle extends JPanel {
 
@@ -232,6 +233,17 @@ public class PanelVehicle extends JPanel {
                 btnSend.setEnabled(false);
                 break;
         }
+    }
+    
+    public void actualizarInterfaz(ArrayList<String> informacion){
+        //H ingreso, H salida, pago, cedula, nombre, numero
+        
+        txtEntry.setText(informacion.get(0));
+        txtDeparture.setText(informacion.get(1));
+        txtPay.setText(informacion.get(2));
+        txtCedula.setText(informacion.get(3));
+        txtOwner.setText(informacion.get(4));
+        txtPhone.setText(informacion.get(5));
     }
 
     private boolean esPlacaValida(String placa) {

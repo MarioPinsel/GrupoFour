@@ -29,7 +29,10 @@ public class Parking {
             existencia.add("El vehiculo no exixte");
         }
         if (info.contains("0")) { // EXISTE INACTIVO
+            
             info = select(1, placa);
+            existencia.add("Vehiculo no parqueado\n"
+                    + "Mostrando ultimo registro de entrada");
             existencia.add(info.get(1)); //H ingreso
             existencia.add(info.get(2)); //H Salida
             existencia.add(info.get(6)); //Pago
@@ -38,23 +41,22 @@ public class Parking {
             info = select(3, existencia.get(3));
             existencia.add(info.get(1)); //Nombre
             existencia.add(info.get(2)); //Numero            
-            existencia.add("Vehiculo no parqueado\n"
-                    + "Mostrando ultimo registro de entrada");
+            
         }
 
         if (info.contains("1")) { //EXISTE ACTIVO
+            existencia.add("El vehiculo esta parqueado\n"
+                    + "Mostrando datos ...");
+            existencia.add("");
+            existencia.add("");
+            existencia.add(""); //Pago
             info = select(1, placa);
             existencia.add(info.get(4)); //Cedula
 
             info = select(3, existencia.get(0));
             existencia.add(info.get(1)); //Nombre
             existencia.add(info.get(2)); //Numero            
-            existencia.add("El vehiculo esta parqueado\n"
-                    + "Mostrando datos ...");
-        }
-
-        for (String a : existencia) {
-            System.out.println(a);
+            
         }
         return existencia;
 
@@ -119,23 +121,6 @@ public class Parking {
         return rta;
     }
 
-//
-//    public ArrayList<String> read(String placa) {
-//        ArrayList<String> info = new ArrayList<>();
-//        try {
-//            if (!selectVehiculo(placa)) {
-//                info.add("VACIO");  //Si no existe el vehiculo, manda vacio
-//            } else {
-//                if (selectParqueo(placa, '0')) {
-//                    info.add()
-//                }
-//            }
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(Parking.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return info;
-//    }
     public void insert(int caso, String placa, String numero, String nombre, String cedula) throws SQLException {
         // Obtener fecha y hora completas en formato "yyyy-MM-dd HH:mm:ss"
         LocalDateTime ahora = LocalDateTime.now();
