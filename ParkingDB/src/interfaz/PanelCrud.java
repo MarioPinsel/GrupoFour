@@ -40,6 +40,8 @@ public class PanelCrud extends JPanel {
                 if (opcion != null) {
                     panelVehicle.setMode(opcion);
                 }
+                panelVehicle.actualizarCampos();
+            
             }
         };
 

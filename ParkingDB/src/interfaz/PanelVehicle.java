@@ -115,23 +115,22 @@ public class PanelVehicle extends JPanel {
                     if ("Create".equals(mode)) {
                         ctrl.create(placa, telefono, nombre, cedula);
                     } else {
-                       // ctrl.update(placa, telefono, nombre, cedula); 
+                        // ctrl.update(placa, telefono, nombre, cedula); 
                     }
+
                     break;
 
                 case "Read":
                     ctrl.read(placa);
+
                     break;
 
                 case "Delete":
-                    ctrl.delete(placa);
+                    //ctrl.delete(placa);
                     break;
+
             }
 
-            txtPlate.setText("");
-            txtOwner.setText("");
-            txtPhone.setText("");
-            txtCedula.setText("");
         });
 
         btnLiquidate.addActionListener(e -> {
@@ -141,8 +140,12 @@ public class PanelVehicle extends JPanel {
                 JOptionPane.showMessageDialog(this, "La placa ingresada no es válida", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            ArrayList<String> info = ctrl.getLiquidacion(placa);
+            txtEntry.setText(info.get(0));
+            txtDeparture.setText(info.get(1));
+            txtPay.setText(info.get(2));
+            btnLiquidate.setEnabled(false);
 
-            JOptionPane.showMessageDialog(this, "Liquidación realizada para la placa: " + placa, "Info", JOptionPane.INFORMATION_MESSAGE);
         });
     }
 
@@ -240,16 +243,32 @@ public class PanelVehicle extends JPanel {
                 break;
         }
     }
-    
-    public void actualizarInterfaz(ArrayList<String> informacion){
-        //H ingreso, H salida, pago, cedula, nombre, numero
+
+    public void actualizarCampos() {
+        txtEntry.setText("");
+        txtDeparture.setText("");
+        txtPay.setText("");
+        txtCedula.setText("");
+        txtOwner.setText("");
+        txtPhone.setText("");
+        txtPlate.setText("");       
         
+        
+    }
+
+    public void actualizarInterfaz(ArrayList<String> informacion) {
+
         txtEntry.setText(informacion.get(0));
         txtDeparture.setText(informacion.get(1));
         txtPay.setText(informacion.get(2));
         txtCedula.setText(informacion.get(3));
         txtOwner.setText(informacion.get(4));
         txtPhone.setText(informacion.get(5));
+
+        if (txtPay.getText().equals(".")) {
+            btnLiquidate.setEnabled(true);            
+        }
+                    
     }
 
     private boolean esPlacaValida(String placa) {

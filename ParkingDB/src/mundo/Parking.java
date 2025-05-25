@@ -28,8 +28,9 @@ public class Parking {
         if (info.contains("SIN_DATOS") || info.contains("2")) { //NO EXISTE
             existencia.add("El vehiculo no exixte");
         }
+
         if (info.contains("0")) { // EXISTE INACTIVO
-            
+
             info = select(1, placa);
             existencia.add("Vehiculo no parqueado\n"
                     + "Mostrando ultimo registro de entrada");
@@ -38,25 +39,25 @@ public class Parking {
             existencia.add(info.get(6)); //Pago
             existencia.add(info.get(4)); //Cedula
 
-            info = select(3, existencia.get(3));
+            info = select(3, existencia.get(4));
             existencia.add(info.get(1)); //Nombre
             existencia.add(info.get(2)); //Numero            
-            
+
         }
 
         if (info.contains("1")) { //EXISTE ACTIVO
             existencia.add("El vehiculo esta parqueado\n"
                     + "Mostrando datos ...");
-            existencia.add("");
-            existencia.add("");
-            existencia.add(""); //Pago
+            existencia.add(""); //H ingreso
+            existencia.add(""); //H salida
+            existencia.add("."); //Pago
             info = select(1, placa);
-            existencia.add(info.get(4)); //Cedula
+            info = select(3, info.get(4));
 
-            info = select(3, existencia.get(0));
+            existencia.add(info.get(0)); //Cedula
             existencia.add(info.get(1)); //Nombre
-            existencia.add(info.get(2)); //Numero            
-            
+            existencia.add(info.get(2)); //Numero
+
         }
         return existencia;
 
@@ -266,7 +267,7 @@ public class Parking {
         }
     }
 
-    private ArrayList<String> getLiquidation(String placa) {
+    public ArrayList<String> getLiquidation(String placa) {
         ArrayList<String> info;
 
         LocalDateTime ahora = LocalDateTime.now();
@@ -287,11 +288,13 @@ public class Parking {
         info.add(String.valueOf(pago));
 
         try {
-            pers.update("UPDATE registro SET Hora_Salida = '" + horaSalida + "' WHERE Placa = " + placa);
-            pers.update("UPDATE registro SET Pago = '" + pago + "' WHERE Placa = " + placa);
-            pers.update("UPDATE veiculo SET Estado = '" + 0 + "' WHERE Placa = " + placa);
+            pers.update("UPDATE registro SET Hora_Salida = '" + horaSalida + "' WHERE Vehiculo_Placa = '" + placa + "'");
+            pers.update("UPDATE registro SET Pago = " + pago + " WHERE Vehiculo_Placa = '" + placa + "'");
+            pers.update("UPDATE vehiculo SET Estado = 0 WHERE Placa = '" + placa + "'");
+
         } catch (SQLException ex) {
-            Logger.getLogger("ERROR: No se pudo ingresar los datos de entrada o salida");
+            System.out.println("ERROR: No se pudo ingresar los datos de entrada o salida");
+            System.out.println(ex.getMessage());
         }
         return info;
 
