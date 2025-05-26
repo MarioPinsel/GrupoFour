@@ -172,10 +172,10 @@ public class Parking {
             existencia.add("Visitante no existente, creelo");
             return existencia;
         }
-
+        
         existencia.add(""); //H ingreso
         existencia.add(""); //H salida
-        existencia.add("."); //Pago            
+        existencia.add(""); //Pago            
         existencia.add(info.get(0)); //Cedula
         existencia.add(info.get(1)); //Nombre
         existencia.add(info.get(2)); //Numero

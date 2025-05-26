@@ -46,18 +46,20 @@ public class Controlador {
         return parking.liquidar(Placa);
     }
 
-    public void getInformation(String cedula) {
+    public boolean getInformation(String cedula) {
         ArrayList<String> info = parking.existenceValidation(cedula);
 
         if (info.size() == 1) {
             panelConsole.log(info.get(0));
-            return;
+            return false;
         }
         panelVehicle.actualizarInterfaz(info);
+        return true;
     }
 
     public void update(ArrayList<String> info) {        
         parking.update(info);
+        panelConsole.log("Datos actualizados");
     }
 
     public void delete(String placa) {
