@@ -43,37 +43,43 @@ public class Controlador {
     }
 
     public ArrayList<String> getLiquidacion(String Placa) {
-        return parking.getLiquidation(Placa);
+        return parking.liquidar(Placa);
     }
 
     public void getInformation(String cedula) {
         ArrayList<String> info = parking.existenceValidation(cedula);
-        
+
         if (info.size() == 1) {
-            panelConsole.log(info.get(0)); 
+            panelConsole.log(info.get(0));
             return;
         }
-        panelVehicle.actualizarInterfaz(info);                        
+        panelVehicle.actualizarInterfaz(info);
     }
-    public void update(ArrayList<String> info){
+
+    public void update(ArrayList<String> info) {        
         parking.update(info);
     }
-    
-    
-    
+
     public void delete(String placa) {
         ArrayList<String> info = parking.delete(placa);
-        if (info.size()==1) {
-           panelConsole.log(info.get(0)); 
-        }else{
-        panelConsole.log(info.get(0));
-        info.remove(0);   
-        for (String aya:info) {
-            panelConsole.log(aya);
-        }
-        panelVehicle.actualizarInterfaz(info);
+
+        if (info.size() == 1) {
+            panelConsole.log(info.get(0));
+        } else {
+            panelConsole.log(info.get(0));
+            info.remove(0);
+
+            ArrayList<String> infoLimpia = new ArrayList<>();
+            for (String aya : info) {
+                panelConsole.log(aya);
+                String[] partes = aya.split(":", 2);
+                if (partes.length == 2) {
+                    infoLimpia.add(partes[1].trim());
+                } else {
+                    infoLimpia.add(aya);
+                }
+            }
+            panelVehicle.actualizarInterfaz(infoLimpia);
         }
     }
-    
-    
 }

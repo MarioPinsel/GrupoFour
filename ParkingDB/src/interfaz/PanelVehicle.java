@@ -57,7 +57,7 @@ public class PanelVehicle extends JPanel {
         gbc.gridy = 2;
         add(new JLabel("Entry:"), gbc);
         gbc.gridy = 3;
-        txtEntry = new JTextField(8);
+        txtEntry = new JTextField(13);
         txtEntry.setEditable(false);
         add(txtEntry, gbc);
 
@@ -65,7 +65,7 @@ public class PanelVehicle extends JPanel {
         gbc.gridy = 2;
         add(new JLabel("Departure:"), gbc);
         gbc.gridy = 3;
-        txtDeparture = new JTextField(5);
+        txtDeparture = new JTextField(13);
         txtDeparture.setEditable(true);
         add(txtDeparture, gbc);
 
@@ -88,19 +88,17 @@ public class PanelVehicle extends JPanel {
         add(btnSend, gbc);
 
         btnSend.addActionListener(e -> {
-            String placa = getPlate();
-
-//            if (!esPlacaValida(placa)) {
-//                JOptionPane.showMessageDialog(this, "La placa ingresada no es válida", "Error", JOptionPane.ERROR_MESSAGE);
-//                return;
-//            }
+            String placa = getPlate().toUpperCase();
 
             switch (mode) {
                 case "Create":
                     String telefono = getPhone();
                     String cedula = getCedula();
                     String nombre = getOwner().toUpperCase();
-
+                    if (!esPlacaValida(placa)) {
+                        JOptionPane.showMessageDialog(this, "La placa ingresada no es válida", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }                    
                     if (!soloNumeros(telefono)) {
                         JOptionPane.showMessageDialog(this, "El número de teléfono debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
@@ -111,67 +109,61 @@ public class PanelVehicle extends JPanel {
                         return;
                     }
 
-                    if ("Create".equals(mode)) {
-                        ctrl.create(placa, telefono, nombre, cedula);
-                    }
+                    ctrl.create(placa, telefono, nombre, cedula);
+
                     break;
                 case "Update":
-                     telefono = getPhone();
-                     cedula = getCedula();
-                     nombre = getOwner().toUpperCase();
+                    telefono = getPhone();
+                    cedula = getCedula();
+                    nombre = getOwner().toUpperCase();
 
-//                    if (!soloNumeros(telefono)) {
-//                        JOptionPane.showMessageDialog(this, "El número de teléfono debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
-//                        return;
-//                    }
-//
                     if (!soloNumeros(cedula)) {
                         JOptionPane.showMessageDialog(this, "La cédula debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
-
-                    if ("Create".equals(mode)) {
-                        ctrl.create(placa, telefono, nombre, cedula);
-                    } else {
                         String prevNumero = telefono;
-                        String prevNombre = nombre;
-                        txtPlate.setEditable(false);
+                        String prevNombre = nombre;                        
                         ctrl.getInformation(cedula); 
-                        txtCedula.setEditable(false);
+                        txtOwner.setEditable(true);
+                        txtPhone.setEditable(true);
                         
-                        if (prevNumero.equals(telefono) || prevNombre.equals(nombre)) {
+                        if (!prevNumero.equals(telefono) || !prevNombre.equals(nombre)) {
                             ArrayList<String> info = new ArrayList<>();
                             info.add(cedula);
                             info.add(nombre);
-                            info.add(telefono);
-                            
+                            info.add(telefono);                            
                             ctrl.update(info);
                         }
-                    }
-
                     break;
-
                 case "Read":
+                    if (!esPlacaValida(placa)) {
+                        JOptionPane.showMessageDialog(this, "La placa ingresada no es válida", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     ctrl.read(placa);
 
                     break;
 
                 case "Delete":
-                    //ctrl.delete(placa);
+                    if (!esPlacaValida(placa)) {
+                        JOptionPane.showMessageDialog(this, "La placa ingresada no es válida", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    ctrl.delete(placa);
                     break;
-
             }
 
         });
 
         btnLiquidate.addActionListener(e -> {
-            String placa = getPlate();
+            String placa = getPlate().toUpperCase();
 
             if (!esPlacaValida(placa)) {
                 JOptionPane.showMessageDialog(this, "La placa ingresada no es válida", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             ArrayList<String> info = ctrl.getLiquidacion(placa);
+
             txtEntry.setText(info.get(0));
             txtDeparture.setText(info.get(1));
             txtPay.setText(info.get(2));
@@ -238,7 +230,6 @@ public class PanelVehicle extends JPanel {
                 btnSend.setEnabled(true);
                 break;
             case "Read":
-
             case "Delete":
                 txtPlate.setEditable(true);
                 txtOwner.setEditable(false);
@@ -247,13 +238,14 @@ public class PanelVehicle extends JPanel {
                 txtEntry.setEditable(false);
                 txtDeparture.setEditable(false);
                 txtPay.setEditable(false);
+                txtEntry.setEnabled(true);
                 btnLiquidate.setEnabled(false);
                 btnSend.setEnabled(true);
                 break;
             case "Update":
-                txtPlate.setEditable(true);
-                txtOwner.setEditable(true);
-                txtPhone.setEditable(true);
+                txtPlate.setEditable(false);
+                txtOwner.setEditable(false);
+                txtPhone.setEditable(false);
                 txtCedula.setEditable(true);
                 txtEntry.setEditable(false);
                 txtDeparture.setEditable(false);

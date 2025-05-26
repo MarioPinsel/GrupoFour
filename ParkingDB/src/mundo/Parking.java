@@ -187,16 +187,13 @@ public class Parking {
 
     public void update(ArrayList<String> info) {
         ArrayList<String> existence = info;
-
         try {
             pers.update("UPDATE visitante SET Nombre = '" + info.get(1) + "' WHERE Cédula = '" + info.get(0) + "'");
             pers.update("UPDATE visitante SET Número = '" + info.get(2) + "' WHERE Cédula = '" + info.get(0) + "'");
-
         } catch (SQLException ex) {
             System.out.println("ERROR: No se puede actualizar la informacion pertinente");
             System.out.println(ex.getMessage());
         }
-
     }
 
     public ArrayList<String> delete(String placa) {
@@ -294,7 +291,7 @@ public class Parking {
         }
     }
 
-    public ArrayList<String> getLiquidation(String placa) {
+    public ArrayList<String> liquidar(String placa) {
         ArrayList<String> info;
 
         LocalDateTime ahora = LocalDateTime.now();
@@ -328,7 +325,6 @@ public class Parking {
     }
 
     private int conversion(String timestamp) {
-
         String horaCompleta = timestamp.split(" ")[1];
         String[] partes = horaCompleta.split(":");
 
