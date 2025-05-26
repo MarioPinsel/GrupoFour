@@ -16,6 +16,10 @@ public class Parking {
 
     private Persistencia pers;
     private String sql;
+    private String placa;
+    private String numero;
+    private String nombre;
+    private String cedula;
 
     public Parking() {
         pers = new Persistencia();
@@ -64,70 +68,63 @@ public class Parking {
     }
 
     public String create(String placa, String numero, String nombre, String cedula) {
-        String rta = "";
+        setAtributos(placa, numero, nombre, cedula);
         ArrayList<String> vehiculoData = select(2, placa);
         ArrayList<String> visitanteData = select(3, cedula);
 
         boolean vehiculoExiste = !vehiculoData.get(0).equals("SIN_DATOS");
-        boolean vehiculoActivo = vehiculoExiste && vehiculoData.get(1).equals("1");
-
+        boolean vehiculoParqueado = vehiculoExiste && vehiculoData.get(1).equals("1");
+        boolean vehiculoBorrado = vehiculoExiste && vehiculoData.get(1).equals("2");
         boolean visitanteExiste = !visitanteData.get(0).equals("SIN_DATOS");
 
         try {
             if (visitanteExiste) {
                 String nombreRegistrado = visitanteData.get(1);
                 if (!nombreRegistrado.equals(nombre)) {
-                    return "Error: Ya existe un visitante con esa cédula pero con nombre distinto: " + nombreRegistrado;
+                    return "Error: ya existe un visitante con esa cédula, pero con un nombre distinto: " + nombreRegistrado;
                 }
             }
-            if (vehiculoExiste && vehiculoActivo && !visitanteExiste) {
-                rta = "Vehicle is already active with another visitor.";
+            if (vehiculoExiste && vehiculoParqueado && !visitanteExiste) {
+                return "Error: el vehículo ya está activo con otro visitante.";
             }
             if (!vehiculoExiste && !visitanteExiste) {
-                // Caso 1: No existe ni vehiculo ni visitante---- CREAR TODO
-                insert(4, placa, numero, nombre, cedula);
-                rta = "Vehículo creado.";
-            } else if (vehiculoExiste && vehiculoActivo && visitanteExiste) {
-                // Caso 2: Si todo existe, no hacer na
-                rta = "El vehículo ya existe.";
-            } else if (vehiculoExiste && vehiculoData.get(1).equals("2") && !visitanteExiste) {
-                //Caso 6: Vehiculo ha sido "eliminado" anteriormente y el visitante no existe, se cambia el estado a 1(parqueado) y se crea visitante y registro
-                pers.update("UPDATE vehiculo SET Estado = 1 WHERE Placa = '" + placa + "'");
-                insert(1, placa, numero, nombre, cedula);
-                insert(3, placa, numero, nombre, cedula);
-                rta = "Vehículo creado.";
-            } else if (vehiculoExiste && vehiculoData.get(1).equals("2") && visitanteExiste) {
-                // Caso 7: Vehiculo ha sido "eliminado" anteriormente y el visitante ya existe, se cambia el estado a 1(parqueado) y se crea el registro
-                pers.update("UPDATE vehiculo SET Estado = 1 WHERE Placa = '" + placa + "'");
-                insert(3, placa, numero, nombre, cedula); // registro
-                rta = "Vehículo creado y el visitante ya existía.";
+                insert(4);
+                return "Vehículo creado.";
+            } else if (vehiculoExiste && vehiculoParqueado && visitanteExiste) {
+                return "El vehículo ya existe.";
             } else if (!vehiculoExiste && visitanteExiste) {
-                // Caso 5:Vehiculo no existe y visitante sí existe --- crear vehiculo y agregar registro
-                insert(2, placa, numero, nombre, cedula);
-                insert(3, placa, numero, nombre, cedula);
-                rta = "El vehiculo no existe, visitante si, se creo el vehiculo, se agrega un registro.";
-            } else if (vehiculoExiste && !vehiculoActivo && !visitanteExiste) {
-                // Caso 3: Vehiculo existe, inactivo y visitante no existe--- se activa vehiculo, crear visitante, agregar registro
+                insert(2);
+                insert(3);
+                return "El vehículo no existe, pero el visitante sí. Se creó el vehículo y se agregó un registro.";
+            } else if (vehiculoExiste && !vehiculoParqueado && !visitanteExiste) {
                 pers.update("UPDATE vehiculo SET Estado = 1 WHERE Placa = '" + placa + "'");
-                insert(1, placa, numero, nombre, cedula);
-                insert(3, placa, numero, nombre, cedula);
-                rta = "El vehiculo existe, se cambio a activo, se crea un visitante, se agrega un registro.";
-            } else if (vehiculoExiste && !vehiculoActivo && visitanteExiste) {
-                // Caso 4: Vehiculo existe, esta inactivo y visitante sí existe ---- Solo agregar registro
+                insert(1);
+                insert(3);
+                if (vehiculoBorrado) {
+                    return "Vehículo creado.";
+                } else {
+                    return "El vehículo existe y se activó. Se creó un visitante y se agregó un registro.";
+                }
+            } else if (vehiculoExiste && !vehiculoParqueado && visitanteExiste) {
                 pers.update("UPDATE vehiculo SET Estado = 1 WHERE Placa = '" + placa + "'");
-                insert(3, placa, numero, nombre, cedula);
-                rta = "El vehiculo existe, se cambio a activo, el visitante ya existia, se agrega un registro.";
+                insert(3);
+                if (vehiculoBorrado) {
+                    return "El vehículo fue creado y el visitante ya existía.";
+                } else {
+                    return "El vehículo existe y se activó. El visitante ya existía, se agregó un registro.";
+                }
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(Parking.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return rta;
+        return "No se pudo completar la operación.";
+
     }
 
-    public void insert(int caso, String placa, String numero, String nombre, String cedula) throws SQLException {
-        // Obtener fecha y hora completas en formato "yyyy-MM-dd HH:mm:ss"
+    public void insert(int caso) throws SQLException {
+
         LocalDateTime ahora = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String fechaHoraIngreso = ahora.format(formatter);
@@ -185,8 +182,7 @@ public class Parking {
         return existencia;
     }
 
-    public void update(ArrayList<String> info) {
-        ArrayList<String> existence = info;
+    public void update(ArrayList<String> info) {        
         try {
             pers.update("UPDATE visitante SET Nombre = '" + info.get(1) + "' WHERE Cédula = '" + info.get(0) + "'");
             pers.update("UPDATE visitante SET Número = '" + info.get(2) + "' WHERE Cédula = '" + info.get(0) + "'");
@@ -334,4 +330,44 @@ public class Parking {
 
         return horas * 3600 + minutos * 60 + segundos;
     }
+
+    public void setAtributos(String placa, String numero, String nombre, String cedula) {
+        this.placa = placa;
+        this.numero = numero;
+        this.nombre = nombre;
+        this.cedula = cedula;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
 }
