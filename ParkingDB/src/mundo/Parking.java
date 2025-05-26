@@ -196,7 +196,7 @@ public class Parking {
         ArrayList<String> vehiculoData = select(2, placa);
         ArrayList<String> info = new ArrayList<>();
 
-        if (vehiculoData.get(0).equals("SIN_DATOS")) {
+        if (vehiculoData.get(0).equals("SIN_DATOS") || vehiculoData.get(1).equals("2")) {
             info.add("El vehículo no existe.");
             return info;
         }
