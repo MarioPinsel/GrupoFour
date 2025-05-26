@@ -18,6 +18,8 @@ public class PanelVehicle extends JPanel {
     private JButton btnSend;
     private Controlador ctrl;
     private String mode;
+    private String prevNum = "";
+    private String prevNom = "";
 
     public PanelVehicle(Controlador ctrl) {
         this.ctrl = ctrl;
@@ -98,7 +100,7 @@ public class PanelVehicle extends JPanel {
                     if (!esPlacaValida(placa)) {
                         JOptionPane.showMessageDialog(this, "La placa ingresada no es válida", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
-                    }                    
+                    }
                     if (!soloNumeros(telefono)) {
                         JOptionPane.showMessageDialog(this, "El número de teléfono debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
@@ -113,27 +115,28 @@ public class PanelVehicle extends JPanel {
 
                     break;
                 case "Update":
-                    telefono = getPhone();
-                    cedula = getCedula();
-                    nombre = getOwner().toUpperCase();
+                   cedula = getCedula();
 
-                    if (!soloNumeros(cedula)) {
-                        JOptionPane.showMessageDialog(this, "La cédula debe contener solo números", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                        String prevNumero = telefono;
-                        String prevNombre = nombre;                        
-                        ctrl.getInformation(cedula); 
+                    if (prevNum.equals("") && prevNom.equals("")) {
+                        if (!ctrl.getInformation(cedula)) {
+                            break;
+                        }                        
+                        prevNum = getPhone();
+                        prevNom = getOwner();
                         txtOwner.setEditable(true);
                         txtPhone.setEditable(true);
-                        
-                        if (!prevNumero.equals(telefono) || !prevNombre.equals(nombre)) {
-                            ArrayList<String> info = new ArrayList<>();
-                            info.add(cedula);
-                            info.add(nombre);
-                            info.add(telefono);                            
-                            ctrl.update(info);
-                        }
+                    }
+                    
+                    if (!prevNum.equals(getPhone()) || !prevNom.equals(getOwner())) {
+                        ArrayList<String> info = new ArrayList<>();
+                        info.add(cedula);
+                        info.add(getOwner());
+                        info.add(getPhone());                        
+                        ctrl.update(info);
+                        prevNum = "";
+                        prevNom = "";
+                    }
+
                     break;
                 case "Read":
                     if (!esPlacaValida(placa)) {
