@@ -1,0 +1,5 @@
+/�/P++Ytablesqlite_sequencesqlite_sequenceCREATE TABLE sqlite_sequence(name,seq)}�YtableimageimageCREATE TABLE image (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name text,
+	imagen64 text,
+	sha256 text
