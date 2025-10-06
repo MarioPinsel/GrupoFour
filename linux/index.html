@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Imagenes</title>
+</head>
+<body>
+
+  <h2>Subir nueva imagen</h2>
+  <form action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="text" name="name" placeholder="Nombre de la imagen" required><br><br>
+    <input type="file" name="image" accept="image/*" required><br><br>
+    <button type="submit">Subir Imagen</button>
+  </form>
+
+  <hr>
+
+  <h2>Buscar imagen por nombre</h2>
+  <form action="/search" method="GET">
+    <input type="text" name="name" placeholder="Nombre de la imagen" required>
+    <button type="submit">Buscar</button>
+  </form>
+
+</body>
+</html>
