@@ -2,24 +2,205 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Imagenes</title>
+  <title>Gestión de Imágenes</title>
+  <style>
+    textarea {
+      width: 100%;
+      height: 150px;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    img {
+      max-width: 300px;
+      margin-top: 10px;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+  </style>
 </head>
 <body>
+  <h1>Gestión de Imágenes</h1>
 
-  <h2>Subir nueva imagen</h2>
-  <form action="/upload" method="POST" enctype="multipart/form-data">
-    <input type="text" name="name" placeholder="Nombre de la imagen" required><br><br>
-    <input type="file" name="image" accept="image/*" required><br><br>
-    <button type="submit">Subir Imagen</button>
-  </form>
+  <!-- SUBIR IMAGEN -->
+  <div class="section">
+    <h2>Subir nueva imagen</h2>
+    <input type="text" id="name" placeholder="Nombre de la imagen" required><br><br>
+    <input type="file" id="file" accept="image/*" required><br><br>
+    <button onclick="uploadImage()">Subir Imagen</button>
+  </div>
 
   <hr>
 
-  <h2>Buscar imagen por nombre</h2>
-  <form action="/search" method="GET">
-    <input type="text" name="name" placeholder="Nombre de la imagen" required>
-    <button type="submit">Buscar</button>
-  </form>
+  <!-- BUSCAR IMAGEN -->
+  <div class="section">
+    <h2>Buscar imagen</h2>
+    <select id="search">
+      <option value="">-- Seleccione un nombre --</option>
+    </select>
+    <button onclick="searchImage()">Buscar</button>
+    <div id="result" style="margin-top:20px;"></div>
+  </div>
 
+  <hr>
+
+  <!-- ELIMINAR IMAGEN -->
+  <div class="section">
+    <h2>Eliminar imagen</h2>
+    <select id="deleteName">
+      <option value="">-- Seleccione un nombre --</option>
+    </select>
+    <button onclick="deleteImage()">Eliminar</button>
+    <div id="deleteResult" style="margin-top:20px; color:red;"></div>
+  </div>
+
+  <hr>
+
+  <!-- ACTUALIZAR IMAGEN -->
+  <div class="section">
+    <h2>Actualizar imagen existente</h2>
+    <select id="updateName">
+      <option value="">-- Seleccione un nombre --</option>
+    </select>
+    <input type="file" id="updateFile" accept="image/*" required><br><br>
+    <button onclick="updateImage()">Actualizar Imagen</button>
+    <div id="updateResult" style="margin-top:20px; color:green;"></div>
+  </div>
+
+  <hr>
+
+  <!-- RENOMBRAR IMAGEN -->
+  <div class="section">
+    <h2>Renombrar imagen existente</h2>
+    <select id="currentName">
+      <option value="">-- Seleccione un nombre --</option>
+    </select>
+    <input type="text" id="newName" placeholder="Nuevo nombre" required><br><br>
+    <button onclick="renameImage()">Renombrar Imagen</button>
+    <div id="renameResult" style="margin-top:20px; color:blue;"></div>
+  </div>
+
+  <script>
+    // -------- SUBIR IMAGEN --------
+    async function uploadImage() {
+      const name = document.getElementById("name").value;
+      const file = document.getElementById("file").files[0];
+      if (!name || !file) { alert("Debes poner un nombre y seleccionar una imagen"); return; }
+
+      const reader = new FileReader();
+      reader.onload = async function() {
+        const base64 = reader.result.split(",")[1];
+        const response = await fetch("upload.py", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: name, imagen64: base64 })
+        });
+        const result = await response.text();
+        alert(result);
+        loadNames(); // refrescar combos
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // -------- BUSCAR IMAGEN --------
+    async function searchImage() {
+      const name = document.getElementById("search").value;
+      if (!name) { alert("Debes seleccionar un nombre"); return; }
+
+      const response = await fetch("search.py?name=" + encodeURIComponent(name));
+      const html = await response.text();
+      document.getElementById("result").innerHTML = html;
+    }
+
+    // -------- ELIMINAR IMAGEN --------
+    async function deleteImage() {
+      const name = document.getElementById("deleteName").value;
+      if (!name) { alert("Debes seleccionar un nombre a eliminar"); return; }
+
+      const response = await fetch("delete.py", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name })
+      });
+      const result = await response.text();
+      document.getElementById("deleteResult").innerHTML = result;
+      loadNames(); // refrescar combos
+    }
+
+    // -------- ACTUALIZAR IMAGEN --------
+    async function updateImage() {
+      const name = document.getElementById("updateName").value;
+      const file = document.getElementById("updateFile").files[0];
+      if (!name || !file) { alert("Debes seleccionar un nombre y subir un archivo"); return; }
+
+      const reader = new FileReader();
+      reader.onload = async function() {
+        const base64 = reader.result.split(",")[1];
+        const response = await fetch("update.py", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: name, imagen64: base64 })
+        });
+        const result = await response.text();
+        document.getElementById("updateResult").innerHTML = result;
+        loadNames(); // refrescar combos
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // -------- RENOMBRAR IMAGEN --------
+    async function renameImage() {
+      const currentName = document.getElementById("currentName").value;
+      const newName = document.getElementById("newName").value;
+      if (!currentName || !newName) { alert("Debes seleccionar un nombre y escribir el nuevo nombre"); return; }
+
+      const response = await fetch("rename.py", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ currentName: currentName, newName: newName })
+      });
+      const result = await response.text();
+      document.getElementById("renameResult").innerHTML = result;
+      loadNames(); // refrescar combos
+    }
+
+    // -------- CARGAR NOMBRES DESDE LA DB --------
+    async function loadNames() {
+      try {
+        const res = await fetch("list_names.py");
+        const nombres = await res.json();
+
+        const selectSearch = document.getElementById("search");
+        const selectDelete = document.getElementById("deleteName");
+        const selectUpdate = document.getElementById("updateName");
+        const selectRename = document.getElementById("currentName");
+
+        [selectSearch, selectDelete, selectUpdate, selectRename].forEach(select => {
+          select.innerHTML = '<option value="">-- Seleccione un nombre --</option>';
+        });
+
+        nombres.forEach(nombre => {
+          [selectSearch, selectDelete, selectUpdate, selectRename].forEach(select => {
+            const opt = document.createElement("option");
+            opt.value = nombre;
+            opt.textContent = nombre;
+            select.appendChild(opt);
+          });
+        });
+      } catch (err) {
+        console.error("Error cargando nombres:", err);
+      }
+    }
+
+    // Llenar combos al cargar la página
+    window.onload = function() {
+      document.getElementById("file").value = "";
+      document.getElementById("name").value = "";
+      document.getElementById("updateFile").value = "";
+      document.getElementById("newName").value = "";
+      loadNames();
+    };
+  </script>
 </body>
 </html>
+
