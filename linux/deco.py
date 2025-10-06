@@ -1,36 +1,36 @@
-#!/usr/bin/python3
+BASE64_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
-base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+def decode_base64(cadena_b64: str) -> bytes:
+    """
+    Decodifica una cadena en Base64 usando el mismo algoritmo que implementaste.
+    Devuelve los bytes originales.
+    """
+    cadena_b64 = cadena_b64.strip().replace("\n", "").replace(" ", "")
 
-with open("alejandro", "r") as f:
-    cadena_b64 = f.read()
+    resultado = bytearray()
 
-cadena_b64 = cadena_b64.strip().replace("\n", "").replace(" ", "")
+    for i in range(0, len(cadena_b64), 4):
+        grupo = cadena_b64[i:i+4]
 
-resultado = bytearray()
+        padding = grupo.count('=')
+        grupo = grupo.rstrip('=')
 
-for i in range(0, len(cadena_b64), 4):
-    grupo = cadena_b64[i:i+4]
+        num = 0
+        for c in grupo:
+            valor = BASE64_CHARS.index(c)
+            num = (num << 6) + valor
 
-    padding = grupo.count('=')
-    grupo = grupo.rstrip('=')
+        num = num << (padding * 6)
 
-    num = 0
-    for c in grupo:
-        valor = base64.index(c)
-        num = (num << 6) + valor
+        byte1 = (num >> 16) & 0xFF
+        byte2 = (num >> 8) & 0xFF
+        byte3 = num & 0xFF
 
-    num = num << (padding * 6)
+        resultado.append(byte1)
+        if padding < 2:
+            resultado.append(byte2)
+        if padding < 1:
+            resultado.append(byte3)
 
-    byte1 = (num >> 16) & 0xFF
-    byte2 = (num >> 8) & 0xFF
-    byte3 = num & 0xFF
+    return bytes(resultado)
 
-    resultado.append(byte1)
-    if padding < 2:
-        resultado.append(byte2)
-    if padding < 1:
-        resultado.append(byte3)
-
-with open("salida.png", "wb") as f:
-    f.write(resultado)
